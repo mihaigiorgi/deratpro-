@@ -16,3 +16,10 @@ export interface Service {
   /** Ce include serviciul — afișat ca listă pe card. */
   highlights: string[];
 }
+
+
+export interface Advantage {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+}

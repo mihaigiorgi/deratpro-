@@ -1,7 +1,6 @@
-import { Bug, Rat, SprayCan } from "lucide-react";
+import { BadgeCheck, Bug, FlaskConical, Rat, ShieldCheck, SprayCan, Timer } from "lucide-react";
 
-import type { NavItem, Service } from "@/types";
-
+import type { Advantage, NavItem, Service } from "@/types";
 /*
  * Tot textul site-ului stă aici, separat de design.
  * DeratPro e un brand fictiv: afirmațiile sunt generale, fără certificări sau statistici inventate.
@@ -47,5 +46,29 @@ export const SERVICES: Service[] = [
       "Nebulizare și tratare a suprafețelor",
       "Produse biocide avizate",
     ],
+  },
+];
+
+
+export const ADVANTAGES: Advantage[] = [
+  {
+    title: "Intervenție rapidă",
+    description: "Răspundem prompt solicitărilor și programăm intervenția cât mai repede, inclusiv pentru situații urgente.",
+    icon: Timer,
+  },
+  {
+    title: "Substanțe avizate",
+    description: "Folosim produse și soluții conforme cu standardele în vigoare, aplicate în doze controlate.",
+    icon: FlaskConical,
+  },
+  {
+    title: "Personal autorizat",
+    description: "Intervențiile sunt realizate de personal instruit și specializat, echipat corespunzător.",
+    icon: BadgeCheck,
+  },
+  {
+    title: "Garanție",
+    description: "Oferim garanție pentru serviciile efectuate, în funcție de tipul intervenției.",
+    icon: ShieldCheck,
   },
 ];
