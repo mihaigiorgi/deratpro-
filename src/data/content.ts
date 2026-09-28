@@ -1,10 +1,17 @@
-import { BadgeCheck, Bug, ClipboardCheck, FlaskConical, MessageSquareText, Rat, ShieldCheck, SprayCan, Timer, Wrench } from "lucide-react";
+import {
+  BadgeCheck,
+  Bug,
+  ClipboardCheck,
+  FlaskConical,
+  MessageSquareText,
+  Rat,
+  ShieldCheck,
+  SprayCan,
+  Timer,
+  Wrench,
+} from "lucide-react";
 
 import type { Advantage, NavItem, ProcessStep, Service, ServiceOption } from "@/types";
-/*
- * Tot textul site-ului stă aici, separat de design.
- * DeratPro e un brand fictiv: afirmațiile sunt generale, fără certificări sau statistici inventate.
- */
 
 export const NAV_ITEMS: NavItem[] = [
   { label: "Servicii", href: "#servicii" },
@@ -49,11 +56,11 @@ export const SERVICES: Service[] = [
   },
 ];
 
-
 export const ADVANTAGES: Advantage[] = [
   {
     title: "Intervenție rapidă",
-    description: "Răspundem prompt solicitărilor și programăm intervenția cât mai repede, inclusiv pentru situații urgente.",
+    description:
+      "Răspundem prompt solicitărilor și programăm intervenția cât mai repede, inclusiv pentru situații urgente.",
     icon: Timer,
   },
   {
@@ -72,7 +79,6 @@ export const ADVANTAGES: Advantage[] = [
     icon: ShieldCheck,
   },
 ];
-
 
 export const PROCESS_STEPS: ProcessStep[] = [
   {
@@ -95,23 +101,20 @@ export const PROCESS_STEPS: ProcessStep[] = [
   },
 ];
 
-
 export const SERVICE_OPTIONS: { value: ServiceOption; label: string }[] = [
   ...SERVICES.map((service) => ({ value: service.id, label: service.title })),
   { value: "nu-stiu", label: "Nu sunt sigur — am nevoie de o evaluare" },
 ];
 
-
 const EMAIL = "contact@deratpro.example";
 const EMAIL_SUBJECT = "Solicitare ofertă — DeratPro";
-const EMAIL_BODY = "Bună ziua,\n\nAș dori o ofertă pentru:\n\nTip spațiu (locuință / firmă):\nProblema observată:\nLocalitate:\nTelefon:\n\nMulțumesc!";
-
+const EMAIL_BODY =
+  "Bună ziua,\n\nAș dori o ofertă pentru:\n\nTip spațiu (locuință / firmă):\nProblema observată:\nLocalitate:\nTelefon:\n\nMulțumesc!";
 
 export const DEMO_CONTACT = {
   phoneDisplay: "+40 700 000 000",
   phoneHref: "tel:+40700000000",
   email: EMAIL,
-  /** Deschide un email nou, cu destinatarul, subiectul și un șablon de mesaj deja completate. */
   emailHref: `mailto:${EMAIL}?subject=${encodeURIComponent(EMAIL_SUBJECT)}&body=${encodeURIComponent(EMAIL_BODY)}`,
   area: "România",
 } as const;

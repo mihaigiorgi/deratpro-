@@ -11,7 +11,6 @@ import { NAV_ITEMS } from "@/data/content";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { cn } from "@/lib/utils";
 
-// Observăm și "acasa", ca niciun link să nu fie evidențiat cât timp ești sus, pe hero.
 const SECTION_IDS = ["acasa", ...NAV_ITEMS.map((item) => item.href.slice(1))];
 
 export function Navbar() {
@@ -20,7 +19,6 @@ export function Navbar() {
   const active = useActiveSection(SECTION_IDS);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
-  // Fundal de sticlă după ce utilizatorul dă scroll.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
@@ -30,7 +28,6 @@ export function Navbar() {
 
   const closeMenu = useCallback(() => setOpen(false), []);
 
-  // Meniul mobil: blochează scroll-ul paginii, se închide cu Escape, returnează focusul pe buton.
   useEffect(() => {
     if (!open) return;
 
@@ -40,7 +37,6 @@ export function Navbar() {
         toggleRef.current?.focus();
       }
     };
-    // Se închide automat dacă fereastra devine lată (layout desktop).
     const desktop = window.matchMedia("(min-width: 768px)");
     const onBreakpoint = (event: MediaQueryListEvent) => event.matches && setOpen(false);
 
@@ -66,7 +62,11 @@ export function Navbar() {
             : "border-transparent bg-transparent",
         )}
       >
-        <Container as="nav" aria-label="Navigare principală" className="flex h-16 items-center justify-between gap-6 md:h-18">
+        <Container
+          as="nav"
+          aria-label="Navigare principală"
+          className="flex h-16 items-center justify-between gap-6 md:h-18"
+        >
           <a href="#acasa" className="rounded-lg" aria-label="DeratPro — înapoi sus" onClick={closeMenu}>
             <Logo />
           </a>
@@ -101,7 +101,10 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             <Button href="#contact" size="md" className="max-md:hidden">
               Solicită ofertă
-              <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
+              <ArrowRight
+                aria-hidden
+                className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5"
+              />
             </Button>
 
             <button

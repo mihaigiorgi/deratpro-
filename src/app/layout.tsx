@@ -48,7 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           Sari la conținut
         </a>
-               <MotionProvider>{children}</MotionProvider>
+        <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   );

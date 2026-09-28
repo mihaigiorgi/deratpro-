@@ -6,11 +6,17 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ADVANTAGES } from "@/data/content";
 
-
 export function WhyDeratPro() {
   return (
-    <section id="de-ce-noi" aria-labelledby="de-ce-noi-title" className="relative isolate overflow-hidden bg-mist-100 py-24 text-ink-900 sm:py-32">
-      <div aria-hidden className="bg-grid-light absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,#000,transparent_70%)]" />
+    <section
+      id="de-ce-noi"
+      aria-labelledby="de-ce-noi-title"
+      className="relative isolate overflow-hidden bg-mist-100 py-24 text-ink-900 sm:py-32"
+    >
+      <div
+        aria-hidden
+        className="bg-grid-light absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,#000,transparent_70%)]"
+      />
 
       <Container className="grid gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
         <Reveal className="lg:sticky lg:top-32 lg:self-start">
@@ -24,7 +30,10 @@ export function WhyDeratPro() {
           <div className="mt-8">
             <Button href="#contact" variant="dark" size="lg">
               Discută cu un specialist
-              <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
+              <ArrowRight
+                aria-hidden
+                className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5"
+              />
             </Button>
           </div>
         </Reveal>
@@ -46,7 +55,10 @@ export function WhyDeratPro() {
                     </div>
                     <h3 className="mt-8 text-lg font-semibold tracking-tight">{advantage.title}</h3>
                     <p className="mt-2.5 leading-relaxed text-ink-700/75">{advantage.description}</p>
-                    <span aria-hidden className="mt-6 h-0.5 w-8 origin-left rounded-full bg-accent-500 transition-transform duration-500 ease-(--ease-out-expo) group-hover:scale-x-[2.5]" />
+                    <span
+                      aria-hidden
+                      className="mt-6 h-0.5 w-8 origin-left rounded-full bg-accent-500 transition-transform duration-500 ease-(--ease-out-expo) group-hover:scale-x-[2.5]"
+                    />
                   </article>
                 </Reveal>
               </li>

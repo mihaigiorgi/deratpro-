@@ -5,10 +5,6 @@ import { PROCESS_STEPS } from "@/data/content";
 
 import { ProcessLine } from "./ProcessLine";
 
-/**
- * Timeline — orizontal pe desktop, vertical pe mobil.
- * Semantic e o listă ordonată (<ol>), deci cititorul de ecran anunță „1 din 3” etc.
- */
 export function Process() {
   return (
     <section id="proces" aria-labelledby="proces-title" className="relative py-24 sm:py-32">

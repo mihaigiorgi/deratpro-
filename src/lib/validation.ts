@@ -7,7 +7,6 @@ export function normalizePhone(value: string): string {
   return value.replace(/[\s\-.()/]/g, "");
 }
 
-
 const RO_PHONE = /^(?:\+40|0040)?0?[237]\d{8}$/;
 const INTL_PHONE = /^\+(?!40)[1-9]\d{7,13}$/;
 
@@ -19,7 +18,6 @@ export function isValidPhone(value: string): boolean {
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const NAME = /^[\p{L}][\p{L}\s'’-]*$/u;
-
 
 type FieldValidator = (value: string) => string | undefined;
 
@@ -38,11 +36,11 @@ const validators: Record<ContactFormField, FieldValidator> = {
   },
   email: (raw) => {
     const value = raw.trim();
-    if (!value) return undefined; // opțional
+    if (!value) return undefined;
     if (!EMAIL.test(value)) return "Adresa de email nu pare validă.";
     return undefined;
   },
-  service: () => undefined, 
+  service: () => undefined,
   message: (raw) => {
     const value = raw.trim();
     if (!value) return "Te rugăm să descrii pe scurt situația.";
@@ -55,7 +53,6 @@ const validators: Record<ContactFormField, FieldValidator> = {
 export function validateField(field: ContactFormField, value: string): string | undefined {
   return validators[field](value);
 }
-
 
 export function validateContactForm(data: ContactFormData): ContactFormErrors {
   const errors: ContactFormErrors = {};

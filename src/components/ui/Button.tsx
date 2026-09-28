@@ -35,7 +35,6 @@ type ButtonAsButton = CommonProps & ButtonHTMLAttributes<HTMLButtonElement> & { 
 
 export type ButtonProps = ButtonAsLink | ButtonAsButton;
 
-/** Cu `href` → link <a> (ex. „Solicită o ofertă” → #contact). Fără `href` → <button> (ex. submit la formular). */
 export function Button({ variant = "primary", size = "md", className, children, ...props }: ButtonProps) {
   const classes = cn(base, variants[variant], sizes[size], className);
 

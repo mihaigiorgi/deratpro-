@@ -13,14 +13,17 @@ interface FieldProps {
   children: ReactNode;
 }
 
-/** Eticheta + câmpul + mesajul de eroare. Câmpul primește id-urile prin `fieldA11y`. */
 export function Field({ id, label, error, hint, optional, className, children }: FieldProps) {
   return (
     <div className={cn("flex flex-col", className)}>
       <div className="mb-2 flex items-baseline justify-between gap-3">
         <label htmlFor={id} className="text-sm font-medium text-slate-200">
           {label}
-          {!optional && <span aria-hidden className="ml-0.5 text-accent-400">*</span>}
+          {!optional && (
+            <span aria-hidden className="ml-0.5 text-accent-400">
+              *
+            </span>
+          )}
         </label>
         {optional && <span className="text-xs text-slate-500">opțional</span>}
       </div>
@@ -34,7 +37,11 @@ export function Field({ id, label, error, hint, optional, className, children }:
             {error}
           </p>
         ) : (
-          hint && <p id={`${id}-hint`} className="text-slate-500">{hint}</p>
+          hint && (
+            <p id={`${id}-hint`} className="text-slate-500">
+              {hint}
+            </p>
+          )
         )}
       </div>
     </div>
@@ -49,7 +56,6 @@ export function fieldA11y(id: string, error?: string, hasHint = false) {
     "aria-describedby": describedBy,
   } as const;
 }
-
 
 export function controlClasses(hasError: boolean) {
   return cn(

@@ -1,6 +1,5 @@
 import type { LucideIcon } from "lucide-react";
 
-
 export type SectionId = "acasa" | "servicii" | "de-ce-noi" | "proces" | "contact";
 
 export interface NavItem {
@@ -16,7 +15,6 @@ export interface Service {
   highlights: string[];
 }
 
-
 export interface Advantage {
   title: string;
   description: string;
@@ -30,8 +28,6 @@ export interface ProcessStep {
   icon: LucideIcon;
 }
 
-
-
 export type ServiceOption = Service["id"] | "nu-stiu";
 
 export interface ContactFormData {
@@ -42,8 +38,6 @@ export interface ContactFormData {
   message: string;
 }
 
-
 export type ContactFormField = keyof ContactFormData;
-
 
 export type ContactFormErrors = Partial<Record<ContactFormField, string>>;

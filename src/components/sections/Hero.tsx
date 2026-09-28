@@ -9,15 +9,18 @@ const TRUST_POINTS = ["Locuințe și spații comerciale", "Substanțe avizate", 
 
 export function Hero() {
   return (
-    <section id="acasa" aria-labelledby="hero-title"
+    <section
+      id="acasa"
+      aria-labelledby="hero-title"
       className="relative isolate overflow-hidden pt-24 pb-16 sm:pt-28 md:pt-32 lg:flex lg:min-h-[min(100svh,56rem)] lg:items-center lg:pt-24 lg:pb-20"
     >
-      {/* Fundal: grilă + două lumini difuze */}
       <div aria-hidden className="bg-grid mask-radial absolute inset-0 -z-10" />
-      <div aria-hidden
+      <div
+        aria-hidden
         className="absolute -top-40 right-[-10%] -z-10 size-168 rounded-full bg-accent-400/7 blur-[120px]"
       />
-      <div aria-hidden
+      <div
+        aria-hidden
         className="absolute bottom-[-20%] left-[-15%] -z-10 size-144 rounded-full bg-sky-500/5 blur-[120px]"
       />
 
@@ -31,7 +34,8 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <h1 id="hero-title"
+            <h1
+              id="hero-title"
               className="mt-6 text-[2.35rem] leading-[1.05] font-semibold tracking-[-0.035em] text-balance text-white min-[400px]:text-[2.6rem] sm:text-6xl lg:text-[3.6rem] xl:text-[4rem]"
             >
               Protecție profesională împotriva{" "}
@@ -52,7 +56,10 @@ export function Hero() {
             <div className="mt-9 flex flex-col gap-3 min-[400px]:flex-row">
               <Button href="#contact" size="lg">
                 Solicită o ofertă
-                <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
+                <ArrowRight
+                  aria-hidden
+                  className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5"
+                />
               </Button>
               <Button href="#servicii" size="lg" variant="secondary">
                 Vezi serviciile
@@ -75,14 +82,8 @@ export function Hero() {
         </div>
       </Container>
 
-      {/*
-        Un singur canvas 3D, două poziții:
-        - mobil / tabletă: bloc separat sub text, ca textul să rămână 100% lizibil;
-        - desktop: jumătatea dreaptă a hero-ului, lângă text.
-      */}
       <HeroVisual className="mt-10 h-80 w-full sm:h-104 md:h-120 lg:absolute lg:inset-y-0 lg:right-[-8%] lg:mt-0 lg:h-auto lg:w-[60%]" />
 
-      {/* Legenda scenei — explică metafora vizuală în text, nu doar prin animație */}
       <div className="pointer-events-none absolute right-6 bottom-8 hidden lg:block xl:right-10">
         <div className="glass flex items-center gap-4 rounded-2xl px-4 py-3 text-xs text-slate-400">
           <span className="flex items-center gap-2">

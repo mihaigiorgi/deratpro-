@@ -15,7 +15,6 @@ type Status = "idle" | "submitting" | "success";
 
 const INITIAL_DATA: ContactFormData = { name: "", phone: "", email: "", service: "", message: "" };
 
-/** Ordinea câmpurilor — la submit mutăm focusul pe primul câmp invalid. */
 const FIELD_ORDER: ContactFormField[] = ["name", "phone", "email", "service", "message"];
 
 const SIMULATED_LATENCY_MS = 1400;
@@ -30,8 +29,6 @@ export function ContactForm() {
 
   const errors = useMemo(() => validateContactForm(data), [data]);
 
-  // Erorile apar doar după ce utilizatorul a părăsit câmpul (blur) sau a apăsat „Trimite” —
-  // niciodată cât timp scrie prima dată.
   const visibleErrors: ContactFormErrors = useMemo(() => {
     const result: ContactFormErrors = {};
     FIELD_ORDER.forEach((field) => {
@@ -68,8 +65,6 @@ export function ContactForm() {
     }
 
     setStatus("submitting");
-    // Fără backend, intenționat: trimiterea e simulată. În producție, aici ar fi un
-    // Server Action / API route care trimite un email sau salvează cererea într-un CRM.
     await wait(SIMULATED_LATENCY_MS);
     setStatus("success");
   };
@@ -83,7 +78,6 @@ export function ContactForm() {
 
   return (
     <div className="relative">
-      {/* Anunțuri pentru cititoarele de ecran (trimitere în curs / succes) */}
       <p className="sr-only" role="status" aria-live="polite">
         {status === "submitting" && "Se trimite solicitarea…"}
         {status === "success" && "Mulțumim! Am primit solicitarea ta. Te vom contacta în cel mai scurt timp."}
@@ -204,7 +198,12 @@ export function ContactForm() {
                       </option>
                     ))}
                   </select>
-                  <svg aria-hidden viewBox="0 0 20 20" className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-slate-400" fill="currentColor">
+                  <svg
+                    aria-hidden
+                    viewBox="0 0 20 20"
+                    className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-slate-400"
+                    fill="currentColor"
+                  >
                     <path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.17l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z" />
                   </svg>
                 </div>
@@ -242,15 +241,10 @@ export function ContactForm() {
 
             <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <p id="form-note" className="text-xs leading-relaxed text-slate-500 sm:max-w-xs">
-                Câmpurile marcate cu <span className="text-accent-400">*</span> sunt obligatorii. Formular
-                demonstrativ — datele nu sunt transmise către un server.
+                Câmpurile marcate cu <span className="text-accent-400">*</span> sunt obligatorii. Formular demonstrativ
+                — datele nu sunt transmise către un server.
               </p>
-              <Button
-                type="submit"
-                size="lg"
-                disabled={isSubmitting || hasVisibleErrors}
-                className="w-full sm:w-auto"
-              >
+              <Button type="submit" size="lg" disabled={isSubmitting || hasVisibleErrors} className="w-full sm:w-auto">
                 {isSubmitting ? (
                   <>
                     <Loader2 aria-hidden className="size-4 animate-spin" />

@@ -29,7 +29,10 @@ export function Services() {
           <Reveal delay={0.1}>
             <ul className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row" aria-label="Pentru cine lucrăm">
               {AUDIENCES.map(({ label, detail, icon: Icon }) => (
-                <li key={label} className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.02] px-4 py-3">
+                <li
+                  key={label}
+                  className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.02] px-4 py-3"
+                >
                   <Icon aria-hidden className="size-5 text-accent-400" strokeWidth={1.75} />
                   <span className="text-sm">
                     <span className="block font-medium text-white">{label}</span>

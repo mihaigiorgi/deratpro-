@@ -1,14 +1,9 @@
 @import "tailwindcss";
 
-/* ──────────────────────────────────────────────
-   Design tokens — DeratPro
-   Navy închis · suprafețe off-white · accent lime
-   ────────────────────────────────────────────── */
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
-  /* Navy / charcoal */
   --color-ink-950: #04070d;
   --color-ink-900: #070c17;
   --color-ink-850: #0a1120;
@@ -16,13 +11,11 @@
   --color-ink-700: #18233b;
   --color-ink-600: #25324f;
 
-  /* Off-white */
   --color-mist-50: #fafaf7;
   --color-mist-100: #f3f4ef;
   --color-mist-200: #e6e8e0;
   --color-mist-300: #d3d7cb;
 
-  /* Accent lime */
   --color-accent-200: #e3fbb4;
   --color-accent-300: #d0f77f;
   --color-accent-400: #b8f24a;
@@ -30,16 +23,13 @@
   --color-accent-600: #7cb514;
   --color-accent-700: #4f7a0a;
 
-  /* Colțuri */
   --radius-card: 1.25rem;
   --radius-panel: 1.75rem;
 
-  /* Umbre */
   --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 20px 40px -24px rgb(0 0 0 / 0.6);
   --shadow-card-light: 0 1px 2px rgb(7 12 23 / 0.04), 0 16px 32px -20px rgb(7 12 23 / 0.18);
   --shadow-glow: 0 0 0 1px rgb(184 242 74 / 0.35), 0 10px 40px -10px rgb(184 242 74 / 0.45);
 
-  /* Animații */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --animate-pulse-dot: pulse-dot 2.4s var(--ease-out-expo) infinite;
 
@@ -54,9 +44,6 @@
   }
 }
 
-/* ──────────────────────────────────────────────
-   Stiluri de bază
-   ────────────────────────────────────────────── */
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -67,7 +54,6 @@
     @apply bg-ink-900 font-sans text-slate-300 antialiased;
   }
 
-  /* Secțiunile nu se ascund sub navbar-ul fix când dai click pe un link */
   section[id] {
     scroll-margin-top: 4.5rem;
   }
@@ -80,7 +66,6 @@
     @apply outline-2 outline-offset-2 outline-accent-400;
   }
 
-  /* Accesibilitate: respectăm setarea „reduce motion” din sistem */
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -95,9 +80,6 @@
   }
 }
 
-/* ──────────────────────────────────────────────
-   Utilitare proprii
-   ────────────────────────────────────────────── */
 @utility bg-grid {
   background-image:
     linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),

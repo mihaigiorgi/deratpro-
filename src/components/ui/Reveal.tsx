@@ -3,12 +3,10 @@
 import { motion, type HTMLMotionProps } from "motion/react";
 
 interface RevealProps extends HTMLMotionProps<"div"> {
-
   delay?: number;
- 
+
   y?: number;
 }
-
 
 export function Reveal({ delay = 0, y = 24, children, ...props }: RevealProps) {
   return (

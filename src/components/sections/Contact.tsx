@@ -70,7 +70,6 @@ export function Contact() {
 
         <Reveal delay={0.1}>
           <div className="glass relative rounded-(--radius-panel) p-5 shadow-card sm:p-8 lg:p-10">
-            {/* Linie fină de accent deasupra panoului */}
             <span
               aria-hidden
               className="absolute inset-x-10 top-0 h-px bg-linear-to-r from-transparent via-accent-400/60 to-transparent"

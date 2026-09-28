@@ -16,9 +16,8 @@ export default function HomePage() {
         <WhyDeratPro />
         <Process />
         <Contact />
-        
       </main>
-       <Footer />
+      <Footer />
     </>
   );
 }
