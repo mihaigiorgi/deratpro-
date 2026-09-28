@@ -86,13 +86,13 @@ export function Hero() {
       <div className="pointer-events-none absolute right-6 bottom-8 hidden lg:block xl:right-10">
         <div className="glass flex items-center gap-4 rounded-2xl px-4 py-3 text-xs text-slate-400">
           <span className="flex items-center gap-2">
-            <span aria-hidden className="size-2 rounded-full bg-[#f2a93b]" /> Amenințare
+            <span aria-hidden className="size-2 rounded-full bg-[#f2a93b]" /> Dăunător
           </span>
           <span className="flex items-center gap-2">
-            <span aria-hidden className="size-2 rounded-full bg-accent-400" /> Neutralizată
+            <span aria-hidden className="size-2 rounded-full bg-accent-400" /> Neutralizat
           </span>
           <span className="h-3 w-px bg-white/10" aria-hidden />
-          <span className="font-mono text-[0.7rem] tracking-wider text-slate-500 uppercase">Scut activ</span>
+          <span className="font-mono text-[0.7rem] tracking-wider text-slate-500 uppercase">Casă protejată</span>
         </div>
       </div>
     </section>

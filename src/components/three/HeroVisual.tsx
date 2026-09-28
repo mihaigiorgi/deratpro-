@@ -8,18 +8,18 @@ import { cn } from "@/lib/utils";
 import type { PointerTarget, SceneQuality } from "./HeroScene";
 
 /*
- * Three.js is the heaviest dependency in the project, so the scene is:
- *  - code-split and loaded only on the client (no SSR for WebGL),
- *  - rendered only while the hero is on screen (frameloop "never" otherwise),
- *  - reduced on small / low-power devices,
- *  - frozen into a single static frame when the user prefers reduced motion.
- * Until the canvas is ready, a CSS placeholder with the same silhouette is shown,
- * so there is no layout shift and no empty box.
+ * Three.js e cea mai mare bibliotecă din proiect, așa că scena:
+ *  - se încarcă separat, doar în browser (WebGL nu are sens pe server);
+ *  - se randează doar cât timp hero-ul e pe ecran (altfel frameloop = "never");
+ *  - are calitate redusă pe telefoane / dispozitive slabe;
+ *  - devine o imagine statică dacă utilizatorul a cerut „reduce motion”.
+ * Până e gata canvas-ul, se vede un placeholder CSS cu aceeași siluetă —
+ * fără spațiu gol și fără ca pagina să „sară”.
  */
 const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
 
-const QUALITY_HIGH: SceneQuality = { particles: 720, shieldDetail: 3 };
-const QUALITY_LOW: SceneQuality = { particles: 260, shieldDetail: 2 };
+const QUALITY_HIGH: SceneQuality = { particles: 560, domeSegments: 64 };
+const QUALITY_LOW: SceneQuality = { particles: 220, domeSegments: 40 };
 
 function detectQuality(): SceneQuality {
   const smallScreen = window.matchMedia("(max-width: 767px)").matches;
@@ -39,7 +39,7 @@ export function HeroVisual({ className }: { className?: string }) {
   useEffect(() => {
     setQuality(detectQuality());
 
-    // Track the pointer on the whole hero section, normalised to the canvas box.
+    // Urmărim mouse-ul pe toată secțiunea hero, normalizat la dimensiunile canvas-ului.
     const container = containerRef.current;
     const section = container?.closest("section");
     const onPointerMove = (event: PointerEvent) => {
@@ -77,16 +77,15 @@ export function HeroVisual({ className }: { className?: string }) {
 
   return (
     <div ref={containerRef} aria-hidden className={cn("relative", className)}>
-      {/* Placeholder / fallback: same composition in pure CSS */}
+      {/* Placeholder: aceeași compoziție, în CSS pur */}
       <div
         className={cn(
           "pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity duration-1000",
           ready ? "opacity-0" : "opacity-100",
         )}
       >
-        <div className="relative aspect-square w-[46%] rounded-full border border-accent-400/25 shadow-[inset_0_0_60px_rgb(184_242_74/0.15)]">
-          <div className="absolute inset-[42%] rounded-full bg-accent-400/80 blur-[2px]" />
-        </div>
+        {/* Silueta cupolei, până se încarcă scena 3D */}
+        <div className="aspect-[2/1] w-[52%] translate-y-[10%] rounded-t-full border border-b-0 border-accent-400/25 shadow-[inset_0_20px_60px_rgb(184_242_74/0.1)]" />
       </div>
 
       {quality && (
