@@ -105,6 +105,20 @@ La `Container` aveam un prop `as?: ElementType`, iar TypeScript ajungea la tipul
 
 Apoi au fost regulile noi din ESLint, cele pentru React Compiler. `set-state-in-effect` se plângea că citeam media queries cu `useState` și `useEffect`, așa că am trecut la `useSyncExternalStore`, care e făcut exact pentru surse din afara React. `immutability` nu voia să modific direct buffer-ele din scena 3D. Numai că exact așa se lucrează în React Three Fiber, deci am oprit regula doar pentru `components/three/`.
 
+## Decizii și compromisuri
+
+Formularul nu trimite nimic nicăieri. Tema nu cerea backend, iar un endpoint pus doar de formă ar fi însemnat chei de API și un serviciu de email pentru un site demonstrativ. În schimb, validarea e scrisă ca să poată fi mutată pe server fără modificări.
+
+Nu am folosit React Hook Form sau Zod. Pentru cinci câmpuri, o librărie ar fi adus mai mult cod decât validarea în sine. Dacă formularul ar crește (upload de poze, mai mulți pași), aș trece la ele.
+
+Scena 3D e partea cea mai grea a paginii, așa că am tratat-o ca opțională: se încarcă după restul paginii, are mai puține particule pe telefon, se oprește când nu se vede și devine statică la „reduce motion”. Pe un telefon slab se pierde din efect, dar pagina rămâne rapidă.
+
+Am păstrat un singur fișier cu textele (`data/content.ts`) în loc de un CMS. Pentru o pagină fără editori e suficient, iar trecerea la un CMS ar însemna doar înlocuirea sursei datelor.
+
+Brandul e inventat, așa că am renunțat la cifre de genul „10.000 de clienți mulțumiți” sau la recenzii. Arată mai puțin „complet”, dar nu pune pe site afirmații false.
+
+`react-hooks/immutability` e oprită doar în `components/three/`, pentru că React Three Fiber lucrează intenționat cu mutații în `useFrame`. În restul proiectului regula e activă.
+
 ## Ce ar mai fi de făcut
 
 - Un Server Action adevărat pentru formular, cu email prin Resend sau salvare într-o bază de date
