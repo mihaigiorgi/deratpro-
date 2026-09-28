@@ -1,9 +1,12 @@
-import type { ElementType, HTMLAttributes } from "react";
+import type { HTMLAttributes } from "react";
 
 import { cn } from "@/lib/utils";
 
+/** Elementele HTML pe care le poate randa Container-ul. */
+type ContainerElement = "div" | "section" | "nav" | "header" | "footer" | "main";
+
 interface ContainerProps extends HTMLAttributes<HTMLElement> {
-  as?: ElementType;
+  as?: ContainerElement;
 }
 
 /** Aceeași lățime maximă și aceleași margini laterale pe toată pagina. */
