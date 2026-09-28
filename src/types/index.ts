@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 
-/** Id-urile secțiunilor de pe pagină — o singură sursă pentru toate link-urile. */
+
 export type SectionId = "acasa" | "servicii" | "de-ce-noi" | "proces" | "contact";
 
 export interface NavItem {
@@ -13,7 +13,6 @@ export interface Service {
   title: string;
   description: string;
   icon: LucideIcon;
-  /** Ce include serviciul — afișat ca listă pe card. */
   highlights: string[];
 }
 
@@ -30,3 +29,21 @@ export interface ProcessStep {
   description: string;
   icon: LucideIcon;
 }
+
+
+
+export type ServiceOption = Service["id"] | "nu-stiu";
+
+export interface ContactFormData {
+  name: string;
+  phone: string;
+  email: string;
+  service: ServiceOption | "";
+  message: string;
+}
+
+
+export type ContactFormField = keyof ContactFormData;
+
+
+export type ContactFormErrors = Partial<Record<ContactFormField, string>>;
