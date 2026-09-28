@@ -3,6 +3,7 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
 import { SITE } from "@/lib/site";
+import { MotionProvider } from "@/components/layout/MotionProvider";
 
 import "./globals.css";
 
@@ -47,7 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           Sari la conținut
         </a>
-        {children}
+               <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   );
