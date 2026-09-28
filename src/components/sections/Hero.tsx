@@ -1,5 +1,6 @@
 import { ArrowRight, Check } from "lucide-react";
 
+import { HeroVisual } from "@/components/three/HeroVisual";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
@@ -73,6 +74,27 @@ export function Hero() {
           </Reveal>
         </div>
       </Container>
+
+      {/*
+        Un singur canvas 3D, două poziții:
+        - mobil / tabletă: bloc separat sub text, ca textul să rămână 100% lizibil;
+        - desktop: jumătatea dreaptă a hero-ului, lângă text.
+      */}
+      <HeroVisual className="mt-10 h-80 w-full sm:h-[26rem] md:h-[30rem] lg:absolute lg:inset-y-0 lg:right-[-8%] lg:mt-0 lg:h-auto lg:w-[60%]" />
+
+      {/* Legenda scenei — explică metafora vizuală în text, nu doar prin animație */}
+      <div className="pointer-events-none absolute right-6 bottom-8 hidden lg:block xl:right-10">
+        <div className="glass flex items-center gap-4 rounded-2xl px-4 py-3 text-xs text-slate-400">
+          <span className="flex items-center gap-2">
+            <span aria-hidden className="size-2 rounded-full bg-[#f2a93b]" /> Amenințare
+          </span>
+          <span className="flex items-center gap-2">
+            <span aria-hidden className="size-2 rounded-full bg-accent-400" /> Neutralizată
+          </span>
+          <span className="h-3 w-px bg-white/10" aria-hidden />
+          <span className="font-mono text-[0.7rem] tracking-wider text-slate-500 uppercase">Scut activ</span>
+        </div>
+      </div>
     </section>
   );
 }
