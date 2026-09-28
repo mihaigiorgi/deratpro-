@@ -47,12 +47,10 @@ Structura seamănă mult cu ce aveam: carduri de servicii cu listă de beneficii
 - Stitch a pus pe pagină exact ce promptul interzicea: „Conformitate HACCP & ISO”, „99.99% spectru larg patogeni”, „răspundem în maximum 15 minute”, avize de la instituții reale. Pentru o firmă inventată astea ar fi afirmații false, așa că nu le-am preluat.
 - Titlurile („Control Biologic & Protecție Tehnologizată”, „Rigoare Științifică și Tehnologie Modernă”) sună impresionant, dar nu spun simplu ce face firma. Am rămas la texte directe.
 - În hero a pus un panou fals de „monitorizare” cu cifre inventate. Eu am vrut acolo animația 3D, care arată ideea de protecție fără date false.
-- A adăugat o secțiune separată pentru rezidențial și comercial. Tema cerea cinci secțiuni, așa că am păstrat distincția doar în texte și în câmpul opțional din formular.
-- Totul e pe același fundal închis. Eu am pus secțiunea de avantaje pe fundal deschis, ca pagina să nu fie apăsătoare la scroll.
+- A adăugat o secțiune separată pentru rezidențial și comercial. Am vrut să rămân la cinci secțiuni, așa că distincția apare doar în texte.
+- Totul e pe același fundal închis. Eu am pus secțiunea „De ce DeratPro” pe fundal deschis, pentru că toată pagina pe negru obosea ochii la scroll. Pe fundalul ăla butonul e negru, fiindcă verdele nu avea destul contrast.
 
 Culorile, umbrele și colțurile sunt definite o singură dată, ca tokens în `globals.css`. Altfel ajungeam cu trei nuanțe de gri aproape identice prin componente.
-
-Secțiunea „De ce DeratPro” e singura pe fundal deschis, pentru că toată pagina pe negru obosea ochii la scroll. Pe fundalul ăla butonul e negru, fiindcă verdele nu avea destul contrast.
 
 Pe mobil scena 3D stă sub text, nu în spatele lui. Altfel titlul se citea greu.
 
@@ -121,7 +119,7 @@ Apoi au fost regulile noi din ESLint, cele pentru React Compiler. `set-state-in-
 
 ## Decizii și compromisuri
 
-Formularul nu trimite nimic nicăieri. Tema nu cerea backend, iar un endpoint pus doar de formă ar fi însemnat chei de API și un serviciu de email pentru un site demonstrativ. În schimb, validarea e scrisă ca să poată fi mutată pe server fără modificări.
+Formularul nu trimite nimic nicăieri. Un endpoint pus doar de formă ar fi însemnat chei de API și un serviciu de email pentru un site demonstrativ. În schimb, validarea e scrisă ca să poată fi mutată pe server fără modificări.
 
 Nu am folosit React Hook Form sau Zod. Pentru cinci câmpuri, o librărie ar fi adus mai mult cod decât validarea în sine. Dacă formularul ar crește (upload de poze, mai mulți pași), aș trece la ele.
 
@@ -130,8 +128,6 @@ Scena 3D e partea cea mai grea a paginii, așa că am tratat-o ca opțională: s
 Am păstrat un singur fișier cu textele (`data/content.ts`) în loc de un CMS. Pentru o pagină fără editori e suficient, iar trecerea la un CMS ar însemna doar înlocuirea sursei datelor.
 
 Brandul e inventat, așa că am renunțat la cifre de genul „10.000 de clienți mulțumiți” sau la recenzii. Arată mai puțin „complet”, dar nu pune pe site afirmații false.
-
-`react-hooks/immutability` e oprită doar în `components/three/`, pentru că React Three Fiber lucrează intenționat cu mutații în `useFrame`. În restul proiectului regula e activă.
 
 ## Ce ar mai fi de făcut
 
