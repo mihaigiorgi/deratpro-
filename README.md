@@ -6,6 +6,8 @@ Cerința era un site de prezentare cu 5 secțiuni (hero, servicii, avantaje, pro
 
 DeratPro nu există. Pe site nu am pus statistici, certificări sau recenzii inventate, iar datele de contact sunt de test (`+40 700 000 000`, `contact@deratpro.example`).
 
+**Demo live:** https://deratpro-two.vercel.app
+
 ## Cum îl rulezi
 
 Ai nevoie de Node.js 20.9 sau mai nou.
@@ -129,4 +131,10 @@ Secțiunile sunt Server Components. `"use client"` apare doar unde e nevoie de b
 
 ## Deploy
 
-Proiectul e pregătit pentru Vercel. Faci push pe GitHub, imporți repository-ul pe vercel.com/new, iar Next.js e detectat automat. Opțional, poți seta `NEXT_PUBLIC_SITE_URL` cu domeniul final. Altfel se folosește adresa oferită de Vercel.
+Site-ul e publicat pe Vercel la https://deratpro-two.vercel.app. Fiecare push pe `main` face automat un deploy nou.
+
+Ca să-l publici în contul tău:
+
+1. Faci push pe GitHub.
+2. Imporți repository-ul pe [vercel.com/new](https://vercel.com/new). Next.js e detectat automat, nu trebuie schimbată nicio setare.
+3. Opțional, setezi `NEXT_PUBLIC_SITE_URL` cu domeniul final (e folosit pentru metadata, sitemap și imaginea Open Graph). Dacă lipsește, se folosește automat domeniul de producție oferit de Vercel.
