@@ -17,7 +17,7 @@ Next.js 16 (App Router), React 19, TypeScript strict, Tailwind CSS 4, Three.js p
 - **Server Components implicit.** `"use client"` doar pentru interacțiune: Navbar, scena 3D, formular, animații (`Reveal`, `ProcessLine`), `SpotlightCard`.
 - **Nu trimite funcții (ex. iconițe Lucide) ca props de la un Server Component la un Client Component.** Randează iconița pe server și trimite rezultatul prin `children`.
 - **Textul stă în `src/data/content.ts`**, tipurile în `src/types/index.ts`. Componentele doar afișează datele.
-- **Design tokens** în `src/app/globals.css` (`@theme`): culori `ink-*`, `mist-*`, `accent-*`, `shadow-card`, `shadow-glow`, `radius-card`. Nu folosi culori hardcodate în componente.
+- **Design tokens** în `src/app/globals.css` (`@theme`): culori `ink-*`, `mist-*`, `accent-*`, `pest-*`, `glow-*`, `shadow-card`, `shadow-glow`, `radius-card`. Din paleta Tailwind se folosesc doar `slate-*` pentru text neutru și `rose-*` pentru erori. Fără valori hex arbitrare (`bg-[#…]`) în componente. Excepții: scena 3D și `opengraph-image.tsx`, unde culorile nu pot veni din clase CSS.
 - Clase Tailwind în forma canonică (`size-168`, nu `size-[42rem]`; `bg-linear-to-r`, nu `bg-gradient-to-r`).
 - Fiecare secțiune: `<section id aria-labelledby>`, titlu cu `SectionHeading`, conținut în `Container`, animații cu `Reveal`.
 - Accesibilitate: un singur `h1` (în Hero), `h2` pentru secțiuni, `h3` pentru carduri; iconițele decorative au `aria-hidden`.

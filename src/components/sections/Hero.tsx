@@ -21,7 +21,7 @@ export function Hero() {
       />
       <div
         aria-hidden
-        className="absolute bottom-[-20%] left-[-15%] -z-10 size-144 rounded-full bg-sky-500/5 blur-[120px]"
+        className="absolute bottom-[-20%] left-[-15%] -z-10 size-144 rounded-full bg-glow-500/5 blur-[120px]"
       />
 
       <Container className="relative">
@@ -87,7 +87,7 @@ export function Hero() {
       <div className="pointer-events-none absolute right-6 bottom-8 hidden lg:block xl:right-10">
         <div className="glass flex items-center gap-4 rounded-2xl px-4 py-3 text-xs text-slate-400">
           <span className="flex items-center gap-2">
-            <span aria-hidden className="size-2 rounded-full bg-[#f2a93b]" /> Dăunător
+            <span aria-hidden className="size-2 rounded-full bg-pest-400" /> Dăunător
           </span>
           <span className="flex items-center gap-2">
             <span aria-hidden className="size-2 rounded-full bg-accent-400" /> Neutralizat
