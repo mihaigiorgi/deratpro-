@@ -1,14 +1,12 @@
 # DeratPro
 
-Landing page pentru o firmă (fictivă) de deratizare, dezinsecție și dezinfecție.
+Landing page pentru o firmă de deratizare, dezinsecție și dezinfecție. Firma e inventată, așa că pe site nu găsești statistici, certificări sau recenzii, iar telefonul și emailul (`+40 700 000 000`, `contact@deratpro.example`) sunt de test.
 
-E un site de prezentare cu 5 secțiuni (hero, servicii, avantaje, proces, contact), o animație Three.js în hero și un formular cu validare. Mi-am propus să iasă un site care chiar ar putea fi folosit de o firmă mică, nu doar o demonstrație tehnică.
+Are cinci secțiuni (hero, servicii, avantaje, proces, contact), o scenă Three.js în hero și un formular de contact cu validare. Am vrut să arate ca un site pe care o firmă mică l-ar putea folosi chiar mâine.
 
-DeratPro nu există. Pe site nu am pus statistici, certificări sau recenzii inventate, iar datele de contact sunt de test (`+40 700 000 000`, `contact@deratpro.example`).
+Demo: https://deratpro-two.vercel.app
 
-**Demo live:** https://deratpro-two.vercel.app
-
-## Cum îl rulezi
+## Rulare locală
 
 Ai nevoie de Node.js 20.9 sau mai nou.
 
@@ -17,84 +15,68 @@ npm install
 npm run dev
 ```
 
-Site-ul pornește pe http://localhost:3000.
-
-Alte comenzi utile:
+Apoi deschizi http://localhost:3000.
 
 ```bash
 npm run build     # build de producție
-npm run start     # pornește build-ul
+npm run start     # rulează build-ul
 npm run lint
 npx tsc --noEmit  # verificare de tipuri
 ```
 
-## Cu ce l-am făcut
+## Stack
 
-- Next.js 16 (App Router), React 19, TypeScript
-- Tailwind CSS 4
-- Three.js cu @react-three/fiber pentru scena din hero
-- Motion pentru animațiile la scroll și meniul de pe mobil
-- Lucide pentru iconițe, Geist pentru font
+Next.js 16 (App Router), React 19 și TypeScript, cu Tailwind CSS 4 pentru stiluri. Scena 3D e făcută cu Three.js prin @react-three/fiber, animațiile la scroll și meniul de pe mobil cu Motion. Iconițele sunt din Lucide, fontul e Geist.
 
-Am încercat să nu adaug pachete doar ca să fie. De exemplu, formularul nu folosește o librărie de formulare: validarea are cam 80 de rânduri și e mai ușor de urmărit așa.
+N-am vrut dependențe de care nu am nevoie. Formularul, de exemplu, nu folosește nicio librărie de formulare. Toată validarea are vreo 60 de rânduri, iar așa e mai ușor de citit.
 
 ## Design
 
-Am pornit de la un concept generat în Google Stitch. Promptul folosit e în [`docs/design-prompt.md`](docs/design-prompt.md).
+Punctul de plecare a fost un concept făcut în Google Stitch (promptul e în [`docs/design-prompt.md`](docs/design-prompt.md)). De acolo am păstrat fundalul închis, accentul verde-lime și cardurile rotunjite. Multe s-au schimbat pe parcurs.
 
 <!-- TODO: captură din Stitch + ce am păstrat / ce am schimbat -->
 
-Din concept am păstrat direcția generală (fundal închis, accent verde-lime, carduri rotunjite). Restul l-am ajustat pe parcurs:
+Culorile, umbrele și colțurile sunt definite o singură dată, ca tokens în `globals.css`. Altfel ajungeam cu trei nuanțe de gri aproape identice prin componente.
 
-- Culorile, umbrele și colțurile sunt definite o singură dată în `globals.css`, ca tokens Tailwind. Așa nu am valori „aproape la fel” împrăștiate prin componente.
-- Secțiunea „De ce DeratPro” e singura pe fundal deschis. Pagina toată pe negru devenea obositoare la scroll.
-- Pe fundalul deschis, butonul e negru, pentru că verdele avea contrast prea slab.
-- Pe mobil, animația 3D stă sub text, nu în spatele lui, ca titlul să rămână lizibil.
-- Logo-ul (un scut cu un gândac) l-am desenat în SVG. Am încercat și variante cu șoarece sau cu o simplă țintă, dar gândacul se vedea cel mai clar la mărimea de favicon.
+Secțiunea „De ce DeratPro” e singura pe fundal deschis, pentru că toată pagina pe negru obosea ochii la scroll. Pe fundalul ăla butonul e negru, fiindcă verdele nu avea destul contrast.
 
-## Animația 3D
+Pe mobil scena 3D stă sub text, nu în spatele lui. Altfel titlul se citea greu.
 
-În hero e o casă desenată din linii, sub o cupolă transparentă. Din exterior vin particule portocalii (dăunătorii). Când ating cupola, devin verzi, ricoșează și dispar, iar pe cupolă apare o undă în punctul de impact. Cu mouse-ul poți împinge particulele.
+Logo-ul e un scut cu un gândac, desenat de mine în SVG. Am încercat și cu un șoarece, și cu o țintă, dar la mărimea unui favicon doar gândacul se mai înțelegea.
 
-Prima variantă a fost un scut abstract cu particule. Arăta bine, dar nu era clar ce reprezintă. Casa sub cupolă spune direct ce vinde firma, fără să arate insecte sau rozătoare.
+## Scena 3D
 
-Câteva lucruri pe care le-am făcut pentru performanță:
+În hero e o casă desenată din linii, sub o cupolă transparentă. Din afară vin particule portocalii, adică dăunătorii. Când lovesc cupola se fac verzi, ricoșează și dispar, iar pe cupolă apare o undă acolo unde au lovit. Cu mouse-ul le poți împinge.
 
-- Scena se încarcă separat (`next/dynamic` cu `ssr: false`), deci restul paginii nu așteaptă după Three.js.
-- Toate particulele sunt un singur obiect `Points`, cu un shader mic scris de mână, deci un singur draw call.
-- Pozițiile se actualizează în `useFrame`, pe array-uri create o singură dată, fără obiecte noi la fiecare cadru.
-- Când hero-ul nu mai e pe ecran, scena nu se mai randează.
-- Pe telefon sunt 220 de particule în loc de 560, iar rezoluția e limitată.
-- Dacă utilizatorul are activată opțiunea „reduce motion” în sistem, scena rămâne o imagine statică.
+Prima versiune era un scut abstract cu particule în jur. Arăta bine, dar nu înțelegeai ce e. Casa sub cupolă arată direct ce face firma, fără gândaci sau șobolani pe ecran.
+
+La performanță am avut grijă la câteva lucruri. Scena se încarcă separat, cu `next/dynamic` și `ssr: false`, ca restul paginii să nu aștepte după Three.js. Toate particulele sunt un singur obiect `Points` cu un shader scris de mână, deci un singur draw call. În `useFrame` modific array-uri alocate o singură dată, fără obiecte noi la fiecare cadru.
+
+Când hero-ul iese din ecran, scena se oprește. Pe telefon sunt 220 de particule în loc de 560 și rezoluția e limitată. Dacă ai „reduce motion” activat în sistem, vezi doar o imagine statică.
 
 ## Formularul
 
-Câmpuri: nume, telefon, email (opțional), serviciul dorit (opțional) și mesaj.
+Are nume, telefon, mesaj și două câmpuri opționale, email și serviciul dorit.
 
-- Numele trebuie să aibă minim 2 caractere și poate conține diacritice, cratimă sau apostrof.
-- Telefonul acceptă formatele obișnuite din România (`0722 123 456`, `+40 722 123 456`, fix `0256…`) și numere internaționale cu `+`. Spațiile și cratimele sunt ignorate.
-- Mesajul trebuie să aibă între 10 și 1000 de caractere.
+Numele trebuie să aibă măcar 2 caractere și poate avea diacritice, cratimă sau apostrof. La telefon merg formatele obișnuite din România (`0722 123 456`, `+40 722 123 456`, fix `0256…`) și numerele internaționale cu `+`, iar spațiile și cratimele nu contează. Mesajul are între 10 și 1000 de caractere.
 
-Erorile apar după ce ieși dintr-un câmp sau când apeși pe trimite, nu în timp ce scrii. Mi s-a părut enervant să văd „câmp invalid” de la prima literă. La submit, focusul sare pe primul câmp greșit.
+Erorile apar când ieși dintr-un câmp sau când apeși pe trimite, nu în timp ce scrii. Nu-mi place să văd „câmp invalid” după prima literă. Dacă ceva e greșit la trimitere, focusul sare la primul câmp cu problemă.
 
-Nu există backend, trimiterea e simulată: așteaptă puțin, apoi afișează mesajul de confirmare. Funcțiile de validare sunt separate de componentă (`src/lib/validation.ts`), ca să poată fi refolosite pe server. Pasul următor ar fi un Server Action care revalidează datele și trimite un email.
+Backend nu există, așa că trimiterea e simulată: un mic delay, apoi mesajul de confirmare. Validarea e separată de componentă, în `src/lib/validation.ts`, ca să poată fi folosită și pe server. Următorul pas ar fi un Server Action care verifică din nou datele și trimite emailul.
 
-Linkul de email din secțiunea de contact deschide un mesaj nou, cu subiectul și o structură de mesaj deja completate.
+În secțiunea de contact, linkul de email deschide un mesaj nou cu subiectul și un mic șablon deja completate.
 
 ## Unelte AI
 
-Am folosit două unelte AI, fiecare pentru altceva:
+Conceptul vizual de la început l-am generat cu Google Stitch, cum scriam la Design.
 
-- **Google Stitch**, pentru conceptul vizual de pornire (vezi secțiunea Design).
-- **Claude** (Anthropic), ca asistent de programare. Am construit proiectul pas cu pas: la fiecare pas discutam ce trebuie făcut și de ce, apoi scriam componentele și testam în browser. Părțile mai lungi, cum sunt scena 3D și formularul, le-am primit scrise și le-am parcurs până le-am înțeles. Tot Claude m-a ajutat să înțeleg și să rezolv erorile de mai jos.
+La cod am lucrat cu Claude (Anthropic) ca asistent. Am mers pas cu pas: discutam ce urmează și de ce, apoi scriam componenta și o testam în browser. Părțile mai lungi, scena 3D și formularul, le-am primit scrise și le-am luat la mână până le-am înțeles. Tot cu el am rezolvat și problemele de mai jos.
 
-În repository am lăsat și configurarea pentru Claude Code, ca proiectul să poată fi continuat în același stil:
+Am lăsat în repo și configurarea pentru Claude Code, ca proiectul să poată fi continuat la fel. [`CLAUDE.md`](CLAUDE.md) conține regulile proiectului (comenzi, convenții, ce nu se inventează pe site). În [`.claude/skills/`](.claude/skills) sunt trei instrucțiuni:
 
-- [`CLAUDE.md`](CLAUDE.md) are regulile proiectului: comenzile, convențiile de cod și ce nu trebuie inventat pe site.
-- [`.claude/skills/`](.claude/skills) are trei instrucțiuni reutilizabile, fiecare în fișierul ei:
-  - [`add-section`](.claude/skills/add-section/SKILL.md): cum adaugi o secțiune nouă;
-  - [`edit-content`](.claude/skills/edit-content/SKILL.md): unde schimbi textele;
-  - [`verify-before-commit`](.claude/skills/verify-before-commit/SKILL.md): ce verifici înainte de commit.
+- [`add-section`](.claude/skills/add-section/SKILL.md) pentru o secțiune nouă
+- [`edit-content`](.claude/skills/edit-content/SKILL.md) pentru schimbat texte
+- [`verify-before-commit`](.claude/skills/verify-before-commit/SKILL.md) cu verificările dinainte de commit
 
 ## Structura
 
@@ -113,28 +95,24 @@ src/
   types/
 ```
 
-Secțiunile sunt Server Components. `"use client"` apare doar unde e nevoie de browser: meniul, scena 3D, formularul și câteva animații. Textele stau în `data/content.ts`, nu direct în JSX, ca să poată fi modificate fără să atingi componentele.
+Secțiunile sunt Server Components. `"use client"` am pus doar unde chiar e nevoie de browser: meniul, scena 3D, formularul și câteva animații. Textele sunt toate în `data/content.ts`, nu în JSX, ca să le poți schimba fără să umbli la componente.
 
-## Probleme întâlnite pe parcurs
+## Probleme pe parcurs
 
-- **Iconițele trimise unui Client Component.** Iconițele Lucide sunt funcții, iar Next.js nu te lasă să trimiți funcții ca props de la server la client. Am rezolvat păstrând cardul pe server și mutând pe client doar efectul de lumină care urmărește mouse-ul.
-- **Tipul `never` în `Container`.** Prop-ul `as?: ElementType` făcea ca TypeScript să nu mai accepte `className`. L-am restrâns la elementele pe care le folosesc efectiv (`div`, `section`, `nav`…).
-- **Regulile noi din ESLint (React Compiler).**
-  - `set-state-in-effect`: citeam media queries cu `useState` + `useEffect`. Am trecut la `useSyncExternalStore`, care e varianta recomandată pentru surse din afara React.
-  - `immutability`: reclama modificarea directă a buffer-elor în scena 3D. Acolo e exact modelul recomandat de React Three Fiber, așa că am dezactivat regula doar pentru folderul `components/three/`, cu un comentariu care explică de ce.
+Prima a apărut la iconițe. Cele din Lucide sunt funcții, iar Next.js nu te lasă să trimiți funcții ca props de la server la client. Cardul a rămas pe server, iar pe client am mutat doar efectul de lumină care urmărește mouse-ul.
 
-## Ce aș face în continuare
+La `Container` aveam un prop `as?: ElementType`, iar TypeScript ajungea la tipul `never` și nu mai accepta `className`. L-am limitat la elementele pe care le folosesc de fapt (`div`, `section`, `nav`…).
 
-- Un Server Action real pentru formular (email prin Resend sau salvare într-un tabel).
-- Câteva teste pentru `validation.ts`.
-- Pagini separate pentru fiecare serviciu, dacă firma ar avea mai mult conținut.
+Apoi au fost regulile noi din ESLint, cele pentru React Compiler. `set-state-in-effect` se plângea că citeam media queries cu `useState` și `useEffect`, așa că am trecut la `useSyncExternalStore`, care e făcut exact pentru surse din afara React. `immutability` nu voia să modific direct buffer-ele din scena 3D. Numai că exact așa se lucrează în React Three Fiber, deci am oprit regula doar pentru `components/three/`.
+
+## Ce ar mai fi de făcut
+
+- Un Server Action adevărat pentru formular, cu email prin Resend sau salvare într-o bază de date
+- Teste pentru `validation.ts`
+- Câte o pagină pentru fiecare serviciu, dacă ar exista mai mult conținut
 
 ## Deploy
 
-Site-ul e publicat pe Vercel la https://deratpro-two.vercel.app. Fiecare push pe `main` face automat un deploy nou.
+Site-ul e pe Vercel, la https://deratpro-two.vercel.app, și se republică singur la fiecare push pe `main`.
 
-Ca să-l publici în contul tău:
-
-1. Faci push pe GitHub.
-2. Imporți repository-ul pe [vercel.com/new](https://vercel.com/new). Next.js e detectat automat, nu trebuie schimbată nicio setare.
-3. Opțional, setezi `NEXT_PUBLIC_SITE_URL` cu domeniul final (e folosit pentru metadata, sitemap și imaginea Open Graph). Dacă lipsește, se folosește automat domeniul de producție oferit de Vercel.
+Dacă vrei să-l pui în contul tău, faci push pe GitHub și imporți repo-ul pe [vercel.com/new](https://vercel.com/new). Next.js e recunoscut automat, deci nu trebuie să setezi nimic. Poți pune `NEXT_PUBLIC_SITE_URL` cu domeniul tău, folosit la metadata, sitemap și imaginea Open Graph. Fără el se folosește domeniul dat de Vercel.
