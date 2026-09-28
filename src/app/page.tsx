@@ -4,6 +4,7 @@ import { Hero } from "@/components/sections/Hero";
 import { Process } from "@/components/sections/Process";
 import { Services } from "@/components/sections/Services";
 import { WhyDeratPro } from "@/components/sections/WhyDeratPro";
+import { Footer } from "@/components/layout/Footer";
 
 export default function HomePage() {
   return (
@@ -15,7 +16,9 @@ export default function HomePage() {
         <WhyDeratPro />
         <Process />
         <Contact />
+        
       </main>
+       <Footer />
     </>
   );
 }
