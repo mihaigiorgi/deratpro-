@@ -29,7 +29,11 @@ export function Hero() {
           <Reveal y={16}>
             <p className="glass inline-flex items-center gap-2.5 rounded-full py-1.5 pr-4 pl-2 text-xs font-medium text-slate-300 sm:text-sm">
               <span className="relative flex size-2 rounded-full bg-accent-400 animate-pulse-dot" aria-hidden />
-              Deratizare · Dezinsecție · Dezinfecție
+              <span className="font-semibold text-white">DeratPro</span>
+              <span className="hidden items-center gap-2.5 min-[420px]:inline-flex">
+                <span className="h-3 w-px bg-white/15" aria-hidden />
+                Deratizare · Dezinsecție · Dezinfecție
+              </span>
             </p>
           </Reveal>
 
