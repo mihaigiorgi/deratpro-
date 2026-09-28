@@ -1,6 +1,6 @@
-# Design prompt — Google Stitch
+# Design prompt
 
-Promptul folosit ca punct de plecare pentru conceptul vizual:
+Brief-ul pentru conceptul vizual. L-am folosit la început ca bază pentru design, apoi, după prima versiune a site-ului, și în Google Stitch (capturile sunt în acest folder). Pentru Stitch am adăugat la final rândul „All visible text on the page must be in Romanian.”
 
 ```text
 Create a premium modern landing page for a Romanian pest control company called "DeratPro".

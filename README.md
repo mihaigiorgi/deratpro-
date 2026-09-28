@@ -32,9 +32,23 @@ N-am vrut dependențe de care nu am nevoie. Formularul, de exemplu, nu foloseșt
 
 ## Design
 
-Punctul de plecare a fost un concept făcut în Google Stitch (promptul e în [`docs/design-prompt.md`](docs/design-prompt.md)). De acolo am păstrat fundalul închis, accentul verde-lime și cardurile rotunjite. Multe s-au schimbat pe parcurs.
+Direcția vizuală am stabilit-o la început lucrând cu Claude, pornind de la brief-ul din [`docs/design-prompt.md`](docs/design-prompt.md): fundal închis, accent verde-lime, carduri rotunjite, cele cinci secțiuni.
 
-<!-- TODO: captură din Stitch + ce am păstrat / ce am schimbat -->
+După prima versiune a site-ului am dat același prompt și în Google Stitch, ca să văd cum îl interpretează un tool de design dedicat și dacă îmi scapă ceva. Asta a ieșit:
+
+<p>
+  <img src="docs/stitch-1.png" alt="Conceptul generat de Google Stitch: hero și secțiunea pentru tipuri de spații" width="32%">
+  <img src="docs/stitch-2.png" alt="Conceptul generat de Google Stitch: servicii și avantaje" width="32%">
+  <img src="docs/stitch-3.png" alt="Conceptul generat de Google Stitch: proces, contact și footer" width="32%">
+</p>
+
+Structura seamănă mult cu ce aveam: carduri de servicii cu listă de beneficii, patru avantaje pe un rând, pași numerotați 01–03, contactul împărțit în date de contact și formular. Mi-a confirmat că direcția era bună. Totuși, am lăsat deoparte destul de mult:
+
+- Stitch a pus pe pagină exact ce promptul interzicea: „Conformitate HACCP & ISO”, „99.99% spectru larg patogeni”, „răspundem în maximum 15 minute”, avize de la instituții reale. Pentru o firmă inventată astea ar fi afirmații false, așa că nu le-am preluat.
+- Titlurile („Control Biologic & Protecție Tehnologizată”, „Rigoare Științifică și Tehnologie Modernă”) sună impresionant, dar nu spun simplu ce face firma. Am rămas la texte directe.
+- În hero a pus un panou fals de „monitorizare” cu cifre inventate. Eu am vrut acolo animația 3D, care arată ideea de protecție fără date false.
+- A adăugat o secțiune separată pentru rezidențial și comercial. Tema cerea cinci secțiuni, așa că am păstrat distincția doar în texte și în câmpul opțional din formular.
+- Totul e pe același fundal închis. Eu am pus secțiunea de avantaje pe fundal deschis, ca pagina să nu fie apăsătoare la scroll.
 
 Culorile, umbrele și colțurile sunt definite o singură dată, ca tokens în `globals.css`. Altfel ajungeam cu trei nuanțe de gri aproape identice prin componente.
 
@@ -68,7 +82,7 @@ Backend nu există, așa că trimiterea e simulată: un mic delay, apoi mesajul 
 
 ## Unelte AI
 
-Conceptul vizual de la început l-am generat cu Google Stitch, cum scriam la Design.
+Google Stitch l-am folosit după prima versiune, ca să compar direcția de design (detalii la Design).
 
 La cod am lucrat cu Claude (Anthropic) ca asistent. Am mers pas cu pas: discutam ce urmează și de ce, apoi scriam componenta și o testam în browser. Părțile mai lungi, scena 3D și formularul, le-am primit scrise și le-am luat la mână până le-am înțeles. Tot cu el am rezolvat și problemele de mai jos.
 
