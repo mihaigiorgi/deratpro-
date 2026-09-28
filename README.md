@@ -1,8 +1,8 @@
 # DeratPro
 
-Landing page pentru o firmă (fictivă) de deratizare, dezinsecție și dezinfecție. L-am făcut ca temă tehnică pentru un post de Junior Fullstack Engineer.
+Landing page pentru o firmă (fictivă) de deratizare, dezinsecție și dezinfecție.
 
-Cerința era un site de prezentare cu 5 secțiuni (hero, servicii, avantaje, proces, contact), o animație Three.js în hero și un formular cu validare. Mi-am propus să iasă un site care chiar ar putea fi folosit de o firmă mică, nu doar o demonstrație tehnică.
+E un site de prezentare cu 5 secțiuni (hero, servicii, avantaje, proces, contact), o animație Three.js în hero și un formular cu validare. Mi-am propus să iasă un site care chiar ar putea fi folosit de o firmă mică, nu doar o demonstrație tehnică.
 
 DeratPro nu există. Pe site nu am pus statistici, certificări sau recenzii inventate, iar datele de contact sunt de test (`+40 700 000 000`, `contact@deratpro.example`).
 
