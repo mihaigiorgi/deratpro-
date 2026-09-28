@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 
+import { useIsClient, useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 
 import type { PointerTarget, SceneQuality } from "./HeroScene";
@@ -21,24 +22,26 @@ const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
 const QUALITY_HIGH: SceneQuality = { particles: 560, domeSegments: 64 };
 const QUALITY_LOW: SceneQuality = { particles: 220, domeSegments: 40 };
 
-function detectQuality(): SceneQuality {
-  const smallScreen = window.matchMedia("(max-width: 767px)").matches;
-  const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+/** Telefon sau dispozitiv slab (ecran tactil + puține nuclee) → calitate redusă. */
+function pickQuality(smallScreen: boolean, coarsePointer: boolean): SceneQuality {
   const fewCores = (navigator.hardwareConcurrency ?? 8) <= 4;
   return smallScreen || (coarsePointer && fewCores) ? QUALITY_LOW : QUALITY_HIGH;
 }
 
 export function HeroVisual({ className }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [quality, setQuality] = useState<SceneQuality | null>(null);
   const [visible, setVisible] = useState(true);
-  const [reducedMotion, setReducedMotion] = useState(false);
   const [ready, setReady] = useState(false);
+
+  // Valori citite din browser — calculate la randare, fără setState în efecte.
+  const isClient = useIsClient();
+  const smallScreen = useMediaQuery("(max-width: 767px)");
+  const coarsePointer = useMediaQuery("(pointer: coarse)");
+  const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const quality = isClient ? pickQuality(smallScreen, coarsePointer) : null;
   const pointer = useRef<PointerTarget>({ x: 0, y: 0, active: false });
 
   useEffect(() => {
-    setQuality(detectQuality());
-
     // Urmărim mouse-ul pe toată secțiunea hero, normalizat la dimensiunile canvas-ului.
     const container = containerRef.current;
     const section = container?.closest("section");
@@ -55,18 +58,13 @@ export function HeroVisual({ className }: { className?: string }) {
     section?.addEventListener("pointermove", onPointerMove, { passive: true });
     section?.addEventListener("pointerleave", onPointerLeave);
 
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(motionQuery.matches);
-    const onMotionChange = (event: MediaQueryListEvent) => setReducedMotion(event.matches);
-    motionQuery.addEventListener("change", onMotionChange);
-
+    // Randăm scena doar cât e vizibilă (setState în callback-ul observer-ului e în regulă).
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), {
       rootMargin: "100px",
     });
     if (containerRef.current) observer.observe(containerRef.current);
 
     return () => {
-      motionQuery.removeEventListener("change", onMotionChange);
       section?.removeEventListener("pointermove", onPointerMove);
       section?.removeEventListener("pointerleave", onPointerLeave);
       observer.disconnect();

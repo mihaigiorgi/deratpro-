@@ -125,7 +125,7 @@ function House() {
     geometry.setAttribute("position", new THREE.BufferAttribute(buildHouseLines(), 3));
     return geometry;
   }, []);
-  const body = useMemo(buildHouseBody, []);
+  const body = useMemo(() => buildHouseBody(), []);
 
   return (
     // Rotită ușor, ca să vedem casa „din trei sferturi”: fațada, o latură și acoperișul.
