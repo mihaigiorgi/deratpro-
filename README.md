@@ -90,11 +90,11 @@ Am folosit două unelte AI, fiecare pentru altceva:
 
 În repository am lăsat și configurarea pentru Claude Code, ca proiectul să poată fi continuat în același stil:
 
-- `CLAUDE.md` are regulile proiectului: comenzile, convențiile de cod și ce nu trebuie inventat pe site.
-- `.claude/skills/` are trei instrucțiuni reutilizabile:
-  - `add-section`: cum adaugi o secțiune nouă;
-  - `edit-content`: unde schimbi textele;
-  - `verify-before-commit`: ce verifici înainte de commit.
+- [`CLAUDE.md`](CLAUDE.md) are regulile proiectului: comenzile, convențiile de cod și ce nu trebuie inventat pe site.
+- [`.claude/skills/`](.claude/skills) are trei instrucțiuni reutilizabile, fiecare în fișierul ei:
+  - [`add-section`](.claude/skills/add-section/SKILL.md): cum adaugi o secțiune nouă;
+  - [`edit-content`](.claude/skills/edit-content/SKILL.md): unde schimbi textele;
+  - [`verify-before-commit`](.claude/skills/verify-before-commit/SKILL.md): ce verifici înainte de commit.
 
 ## Structura
 
