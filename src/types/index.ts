@@ -23,3 +23,10 @@ export interface Advantage {
   description: string;
   icon: LucideIcon;
 }
+
+export interface ProcessStep {
+  number: string;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+}

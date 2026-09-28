@@ -1,6 +1,6 @@
-import { BadgeCheck, Bug, FlaskConical, Rat, ShieldCheck, SprayCan, Timer } from "lucide-react";
+import { BadgeCheck, Bug, ClipboardCheck, FlaskConical, MessageSquareText, Rat, ShieldCheck, SprayCan, Timer, Wrench } from "lucide-react";
 
-import type { Advantage, NavItem, Service } from "@/types";
+import type { Advantage, NavItem, ProcessStep, Service } from "@/types";
 /*
  * Tot textul site-ului stă aici, separat de design.
  * DeratPro e un brand fictiv: afirmațiile sunt generale, fără certificări sau statistici inventate.
@@ -70,5 +70,27 @@ export const ADVANTAGES: Advantage[] = [
     title: "Garanție",
     description: "Oferim garanție pentru serviciile efectuate, în funcție de tipul intervenției.",
     icon: ShieldCheck,
+  },
+];
+
+
+export const PROCESS_STEPS: ProcessStep[] = [
+  {
+    number: "01",
+    title: "Ne contactezi",
+    description: "Completezi formularul sau ne contactezi pentru a descrie problema.",
+    icon: MessageSquareText,
+  },
+  {
+    number: "02",
+    title: "Evaluăm situația",
+    description: "Discutăm situația și identificăm soluția potrivită pentru spațiul tău.",
+    icon: ClipboardCheck,
+  },
+  {
+    number: "03",
+    title: "Intervenim",
+    description: "Echipa noastră efectuează intervenția în condiții profesionale și sigure.",
+    icon: Wrench,
   },
 ];
