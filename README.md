@@ -2,7 +2,7 @@
 
 Landing page pentru o firmă de deratizare, dezinsecție și dezinfecție. Firma e inventată, așa că pe site nu găsești statistici, certificări sau recenzii, iar telefonul și emailul (`+40 700 000 000`, `contact@deratpro.example`) sunt de test.
 
-Are cinci secțiuni (hero, servicii, avantaje, proces, contact), o scenă Three.js în hero și un formular de contact cu validare. Site-ul e în română și în engleză, cu un buton RO / EN în meniu. Am vrut să arate ca un site pe care o firmă mică l-ar putea folosi chiar mâine.
+Are cinci secțiuni (hero, servicii, avantaje, proces, contact), o scenă Three.js în hero și un formular de contact cu validare. Site-ul e în română și în engleză, cu temă închisă și deschisă, ambele cu butoane în meniu. Am vrut să arate ca un site pe care o firmă mică l-ar putea folosi chiar mâine.
 
 Demo: https://deratpro-two.vercel.app
 
@@ -88,6 +88,18 @@ Textele sunt în două dicționare, `src/i18n/dictionaries/ro.ts` și `en.ts`, c
 
 Ca adresa veche să rămână neschimbată, `src/proxy.ts` servește intern pagina `/ro` la `/` și trimite `/ro` înapoi la `/`. Titlul, descrierea, imaginea Open Graph și sitemap-ul există pentru ambele limbi, cu link-uri `hreflang` între ele.
 
+## Temă închisă și deschisă
+
+Site-ul a fost gândit pe închis și pornește tot așa. Butonul soare / lună din meniu trece pe tema deschisă, iar alegerea se păstrează în `localStorage` pentru vizitele următoare.
+
+Ca să nu dublez fiecare clasă (`text-white` plus o variantă pentru light), culorile din componente sunt acum tokens cu nume după rol, nu după nuanță: `text-fg`, `text-fg-muted`, `bg-page`, `bg-surface`, `text-brand`. Valorile lor se schimbă în `globals.css`, după atributul `data-theme` de pe `<html>`. O componentă nouă scrisă cu ele arată bine din prima în ambele teme.
+
+Verdele lime e greu de citit pe fundal deschis, așa că `text-brand` devine acolo un verde mai închis. Butonul principal rămâne lime cu text închis, pentru că acolo contrastul e bun în ambele variante. Secțiunea „De ce DeratPro”, singura deschisă pe tema închisă, se inversează pe tema deschisă și devine singura închisă. Ritmul paginii rămâne același.
+
+Tema e citită dintr-un script mic pus în `<head>`, care rulează înainte să se afișeze pagina. Fără el, cine a ales tema deschisă ar vedea o clipă pagina neagră la fiecare încărcare. Paginile rămân statice: serverul trimite mereu tema închisă, iar scriptul o corectează în browser.
+
+Scena 3D are și ea câte o paletă pentru fiecare temă. Pe închis, particulele și cupola se adună peste fundal ca lumina (`AdditiveBlending`). Pe alb ar fi dispărut complet, așa că pe tema deschisă folosesc culori mai închise și amestecare normală.
+
 ## Unelte AI
 
 Google Stitch l-am folosit după prima versiune, ca să compar direcția de design (detalii la Design).
@@ -114,9 +126,9 @@ src/
     contact/      formularul
     ui/           Button, Container, Logo, Field etc.
   data/           structura conținutului: servicii, avantaje, pași, iconițe
-  hooks/          useActiveSection, useMediaQuery
+  hooks/          useActiveSection, useMediaQuery, useTheme
   i18n/           limbile disponibile și dicționarele ro / en
-  lib/            validare, utilitare, configurare site
+  lib/            validare, utilitare, configurare site, temă
   types/
   proxy.ts        româna la /, engleza la /en
 ```
