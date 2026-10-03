@@ -28,6 +28,7 @@ Toate trei trebuie să se termine fără `error`.
 - 320px și 375px: fără scroll orizontal, meniul hamburger merge, scena 3D e sub text;
 - 768px: servicii pe 2 coloane, timeline orizontal;
 - formularul: gol → 3 erori; completat → „Se trimite…” → mesaj de succes.
+- butonul RO / EN: duce la `/en` și înapoi la `/`, iar pe `/en` nu rămâne niciun text în română (inclusiv erorile din formular).
 
 ## Commit
 

@@ -2,7 +2,7 @@
 
 # DeratPro — reguli de proiect
 
-Landing page (o singură pagină) pentru o firmă fictivă de deratizare / dezinsecție / dezinfecție.
+Landing page (o singură pagină) pentru o firmă fictivă de deratizare / dezinsecție / dezinfecție, în română (`/`) și engleză (`/en`).
 Next.js 16 (App Router), React 19, TypeScript strict, Tailwind CSS 4, Three.js prin @react-three/fiber, Motion.
 
 ## Comenzi
@@ -16,7 +16,8 @@ Next.js 16 (App Router), React 19, TypeScript strict, Tailwind CSS 4, Three.js p
 
 - **Server Components implicit.** `"use client"` doar pentru interacțiune: Navbar, scena 3D, formular, animații (`Reveal`, `ProcessLine`), `SpotlightCard`.
 - **Nu trimite funcții (ex. iconițe Lucide) ca props de la un Server Component la un Client Component.** Randează iconița pe server și trimite rezultatul prin `children`.
-- **Textul stă în `src/data/content.ts`**, tipurile în `src/types/index.ts`. Componentele doar afișează datele.
+- **Textul stă în dicționare:** `src/i18n/dictionaries/ro.ts` și `en.ts`, ambele de tipul `Dictionary` din `src/types/index.ts`. Orice text nou se adaugă în ambele limbi. `src/data/content.ts` are doar structura (id-uri, ordine, iconițe, contact demonstrativ). Componentele primesc partea lor din dicționar prin prop-ul `dict` și doar afișează datele.
+- **Limbi:** configurate în `src/i18n/config.ts`. Rutele sunt sub `src/app/[lang]/`, iar `src/proxy.ts` servește româna la `/` (rescriere internă către `/ro`) și redirecționează `/ro` la `/`. Linkurile între limbi se fac cu `localePath()`.
 - **Design tokens** în `src/app/globals.css` (`@theme`): culori `ink-*`, `mist-*`, `accent-*`, `pest-*`, `glow-*`, `shadow-card`, `shadow-glow`, `radius-card`. Din paleta Tailwind se folosesc doar `slate-*` pentru text neutru și `rose-*` pentru erori. Fără valori hex arbitrare (`bg-[#…]`) în componente. Excepții: scena 3D și `opengraph-image.tsx`, unde culorile nu pot veni din clase CSS.
 - Clase Tailwind în forma canonică (`size-168`, nu `size-[42rem]`; `bg-linear-to-r`, nu `bg-gradient-to-r`).
 - Fiecare secțiune: `<section id aria-labelledby>`, titlu cu `SectionHeading`, conținut în `Container`, animații cu `Reveal`.
@@ -32,5 +33,5 @@ Commit-uri mici, în stil Conventional Commits: `feat:`, `fix:`, `style:`, `refa
 ## Skills disponibile
 
 - `add-section` — cum adaugi o secțiune nouă pe pagină
-- `edit-content` — cum modifici texte, servicii, avantaje, pași sau date de contact
+- `edit-content` — cum modifici sau traduci texte, servicii, avantaje, pași sau date de contact
 - `verify-before-commit` — verificările de rulat înainte de commit / push
