@@ -2,7 +2,7 @@
 
 Landing page pentru o firmă de deratizare, dezinsecție și dezinfecție. Firma e inventată, așa că pe site nu găsești statistici, certificări sau recenzii, iar telefonul și emailul (`+40 700 000 000`, `contact@deratpro.example`) sunt de test.
 
-Are cinci secțiuni (hero, servicii, avantaje, proces, contact), o scenă Three.js în hero și un formular de contact cu validare. Am vrut să arate ca un site pe care o firmă mică l-ar putea folosi chiar mâine.
+Are cinci secțiuni (hero, servicii, avantaje, proces, contact), o scenă Three.js în hero și un formular de contact cu validare. Site-ul e în română și în engleză, cu un buton RO / EN în meniu. Am vrut să arate ca un site pe care o firmă mică l-ar putea folosi chiar mâine.
 
 Demo: https://deratpro-two.vercel.app
 
@@ -78,6 +78,16 @@ Backend nu există, așa că trimiterea e simulată: un mic delay, apoi mesajul 
 
 În secțiunea de contact, linkul de email deschide un mesaj nou cu subiectul și un mic șablon deja completate.
 
+## Română și engleză
+
+Româna e la `/`, engleza la `/en`. Butonul RO / EN din meniu e un link simplu între cele două adrese și te duce în aceeași secțiune în care erai.
+
+Am ales limba în URL în loc de un buton care schimbă textul din JavaScript. Așa, fiecare limbă e o pagină statică separată, generată la build. Google le poate indexa pe amândouă, iar un link trimis cuiva deschide direct limba corectă. Secțiunile au rămas Server Components. Cu un toggle pe client, toată pagina ar fi trebuit să devină Client Component.
+
+Textele sunt în două dicționare, `src/i18n/dictionaries/ro.ts` și `en.ts`, cu același tip TypeScript. Dacă adaug un text doar într-o limbă, build-ul nu trece. Validarea din formular nu mai întoarce mesaje în română, ci coduri (`nameRequired`, `phoneInvalid`…), pe care formularul le traduce.
+
+Ca adresa veche să rămână neschimbată, `src/proxy.ts` servește intern pagina `/ro` la `/` și trimite `/ro` înapoi la `/`. Titlul, descrierea, imaginea Open Graph și sitemap-ul există pentru ambele limbi, cu link-uri `hreflang` între ele.
+
 ## Unelte AI
 
 Google Stitch l-am folosit după prima versiune, ca să compar direcția de design (detalii la Design).
@@ -94,20 +104,24 @@ Am lăsat în repo și configurarea pentru Claude Code, ca proiectul să poată 
 
 ```text
 src/
-  app/            layout, pagina, stiluri globale, SEO (OG image, robots, sitemap)
+  app/
+    [lang]/       layout, pagina și imaginea Open Graph, câte una pe limbă
+                  stiluri globale, favicon, robots, sitemap
   components/
     layout/       Navbar, Footer
     sections/     Hero, Services, WhyDeratPro, Process, Contact
     three/        scena 3D și shaderele
     contact/      formularul
     ui/           Button, Container, Logo, Field etc.
-  data/           tot textul site-ului
+  data/           structura conținutului: servicii, avantaje, pași, iconițe
   hooks/          useActiveSection, useMediaQuery
+  i18n/           limbile disponibile și dicționarele ro / en
   lib/            validare, utilitare, configurare site
   types/
+  proxy.ts        româna la /, engleza la /en
 ```
 
-Secțiunile sunt Server Components. `"use client"` am pus doar unde chiar e nevoie de browser: meniul, scena 3D, formularul și câteva animații. Textele sunt toate în `data/content.ts`, nu în JSX, ca să le poți schimba fără să umbli la componente.
+Secțiunile sunt Server Components. `"use client"` am pus doar unde chiar e nevoie de browser: meniul, scena 3D, formularul și câteva animații. Textele sunt în dicționare, nu în JSX, ca să le poți schimba fără să umbli la componente.
 
 ## Probleme pe parcurs
 
@@ -125,7 +139,7 @@ Nu am folosit React Hook Form sau Zod. Pentru cinci câmpuri, o librărie ar fi 
 
 Scena 3D e partea cea mai grea a paginii, așa că am tratat-o ca opțională: se încarcă după restul paginii, are mai puține particule pe telefon, se oprește când nu se vede și devine statică la „reduce motion”. Pe un telefon slab se pierde din efect, dar pagina rămâne rapidă.
 
-Am păstrat un singur fișier cu textele (`data/content.ts`) în loc de un CMS. Pentru o pagină fără editori e suficient, iar trecerea la un CMS ar însemna doar înlocuirea sursei datelor.
+Textele stau în dicționare TypeScript în loc de un CMS sau o librărie ca `next-intl`. Pentru o pagină cu două limbi și fără editori e suficient. Dacă ar apărea mai multe limbi sau oameni care editează textele fără să umble la cod, aș trece la una dintre ele.
 
 Brandul e inventat, așa că am renunțat la cifre de genul „10.000 de clienți mulțumiți” sau la recenzii. Arată mai puțin „complet”, dar nu pune pe site afirmații false.
 
