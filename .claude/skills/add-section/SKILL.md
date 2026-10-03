@@ -53,8 +53,9 @@ export function Nume({ dict }: { dict: Dictionary["faq"] }) {
 ```
 
 Reguli:
-- Folosește tokens (`bg-ink-800/60`, `border-white/8`, `text-accent-400`, `rounded-(--radius-card)`), nu culori noi.
-- Pe fundal deschis: `SectionHeading tone="light"` și `Button variant="dark"`.
+- Folosește tokens semantice (`bg-surface/60`, `border-fg/8`, `text-fg-muted`, `text-brand`, `rounded-(--radius-card)`), nu `text-white`, `slate-*` sau `ink-*`. Așa secțiunea arată corect atât în tema închisă, cât și în cea deschisă.
+- Pentru o secțiune cu fundal opus restului paginii, adaugă clasa `theme-invert` pe `<section>` și folosește `bg-page-deep`. Butonul potrivit acolo e `Button variant="contrast"`.
+- Verifică secțiunea în ambele teme (butonul soare / lună din meniu).
 - Dacă ai nevoie de interacțiune (mouse, stare), izolează doar acea bucată într-un Client Component mic și trimite restul prin `children`. Unui Client Component îi trimiți doar text simplu din dicționar, nu funcții sau iconițe.
 - Animații: `Reveal` cu `delay={index * 0.08}` pentru apariții în cascadă.
 

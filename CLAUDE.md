@@ -18,7 +18,14 @@ Next.js 16 (App Router), React 19, TypeScript strict, Tailwind CSS 4, Three.js p
 - **Nu trimite funcții (ex. iconițe Lucide) ca props de la un Server Component la un Client Component.** Randează iconița pe server și trimite rezultatul prin `children`.
 - **Textul stă în dicționare:** `src/i18n/dictionaries/ro.ts` și `en.ts`, ambele de tipul `Dictionary` din `src/types/index.ts`. Orice text nou se adaugă în ambele limbi. `src/data/content.ts` are doar structura (id-uri, ordine, iconițe, contact demonstrativ). Componentele primesc partea lor din dicționar prin prop-ul `dict` și doar afișează datele.
 - **Limbi:** configurate în `src/i18n/config.ts`. Rutele sunt sub `src/app/[lang]/`, iar `src/proxy.ts` servește româna la `/` (rescriere internă către `/ro`) și redirecționează `/ro` la `/`. Linkurile între limbi se fac cu `localePath()`.
-- **Design tokens** în `src/app/globals.css` (`@theme`): culori `ink-*`, `mist-*`, `accent-*`, `pest-*`, `glow-*`, `shadow-card`, `shadow-glow`, `radius-card`. Din paleta Tailwind se folosesc doar `slate-*` pentru text neutru și `rose-*` pentru erori. Fără valori hex arbitrare (`bg-[#…]`) în componente. Excepții: scena 3D și `opengraph-image.tsx`, unde culorile nu pot veni din clase CSS.
+- **Teme (dark / light):** tema stă în `data-theme` pe `<html>` (implicit `dark`), iar alegerea utilizatorului e salvată în `localStorage` și aplicată de scriptul din `<head>` înainte de afișare (`src/lib/theme.ts`). Componentele folosesc **doar tokens semantice**, care își schimbă valoarea după temă:
+  - fundaluri: `bg-page`, `bg-page-deep`, `bg-surface`, `bg-surface-2`;
+  - text: `text-fg`, `text-fg-strong`, `text-fg-soft`, `text-fg-muted`, `text-fg-subtle`;
+  - accent: `text-brand`, `bg-brand/10`, `border-brand/20`, gradient `from-brand-soft to-brand-strong`;
+  - erori: `text-danger`, `border-danger-line`;
+  - margini și suprafețe transparente: `border-fg/8`, `bg-fg/5` (nu `white/…`).
+
+  Nu folosi `text-white`, `slate-*`, `ink-*` sau `mist-*` în componente. Excepții voite, la fel în ambele teme: butonul principal (`bg-accent-400 text-ink-900`), iconița logo-ului, punctele din legenda scenei 3D și pătratele închise cu iconițe din „De ce DeratPro”. O secțiune cu clasa `theme-invert` primește tema opusă (vezi „De ce DeratPro”). Valorile tokens-urilor stau în `src/app/globals.css`. Fără valori hex arbitrare (`bg-[#…]`) în componente. Excepții: scena 3D (are paletă proprie pentru fiecare temă) și `opengraph-image.tsx`.
 - Clase Tailwind în forma canonică (`size-168`, nu `size-[42rem]`; `bg-linear-to-r`, nu `bg-gradient-to-r`).
 - Fiecare secțiune: `<section id aria-labelledby>`, titlu cu `SectionHeading`, conținut în `Container`, animații cu `Reveal`.
 - Accesibilitate: un singur `h1` (în Hero), `h2` pentru secțiuni, `h3` pentru carduri; iconițele decorative au `aria-hidden`.

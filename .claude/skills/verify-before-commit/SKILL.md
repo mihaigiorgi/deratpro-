@@ -29,6 +29,7 @@ Toate trei trebuie să se termine fără `error`.
 - 768px: servicii pe 2 coloane, timeline orizontal;
 - formularul: gol → 3 erori; completat → „Se trimite…” → mesaj de succes.
 - butonul RO / EN: duce la `/en` și înapoi la `/`, iar pe `/en` nu rămâne niciun text în română (inclusiv erorile din formular).
+- butonul soare / lună: toată pagina trece pe tema deschisă și înapoi, inclusiv scena 3D, iar după refresh tema aleasă rămâne fără „flash”. Textul trebuie să se citească bine în ambele teme.
 
 ## Commit
 
