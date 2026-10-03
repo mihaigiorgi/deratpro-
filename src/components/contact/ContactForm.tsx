@@ -6,10 +6,9 @@ import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FocusEvent
 
 import { Button } from "@/components/ui/Button";
 import { controlClasses, Field, fieldA11y } from "@/components/ui/Field";
-import { SERVICE_OPTIONS } from "@/data/content";
-import { cn, wait } from "@/lib/utils";
-import { MESSAGE_MAX_LENGTH, MESSAGE_MIN_LENGTH, validateContactForm } from "@/lib/validation";
-import type { ContactFormData, ContactFormErrors, ContactFormField } from "@/types";
+import { cn, fillTemplate, wait } from "@/lib/utils";
+import { ERROR_TEMPLATE_VALUES, MESSAGE_MAX_LENGTH, MESSAGE_MIN_LENGTH, validateContactForm } from "@/lib/validation";
+import type { ContactFormData, ContactFormField, FormDictionary, ServiceOption } from "@/types";
 
 type Status = "idle" | "submitting" | "success";
 
@@ -19,7 +18,12 @@ const FIELD_ORDER: ContactFormField[] = ["name", "phone", "email", "service", "m
 
 const SIMULATED_LATENCY_MS = 1400;
 
-export function ContactForm() {
+interface ContactFormProps {
+  dict: FormDictionary;
+  serviceOptions: { value: ServiceOption; label: string }[];
+}
+
+export function ContactForm({ dict, serviceOptions }: ContactFormProps) {
   const [data, setData] = useState<ContactFormData>(INITIAL_DATA);
   const [touched, setTouched] = useState<Partial<Record<ContactFormField, boolean>>>({});
   const [submitAttempted, setSubmitAttempted] = useState(false);
@@ -29,13 +33,16 @@ export function ContactForm() {
 
   const errors = useMemo(() => validateContactForm(data), [data]);
 
-  const visibleErrors: ContactFormErrors = useMemo(() => {
-    const result: ContactFormErrors = {};
+  const visibleErrors = useMemo(() => {
+    const result: Partial<Record<ContactFormField, string>> = {};
     FIELD_ORDER.forEach((field) => {
-      if ((touched[field] || submitAttempted) && errors[field]) result[field] = errors[field];
+      const code = errors[field];
+      if ((touched[field] || submitAttempted) && code) {
+        result[field] = fillTemplate(dict.errors[code], ERROR_TEMPLATE_VALUES[code] ?? {});
+      }
     });
     return result;
-  }, [errors, touched, submitAttempted]);
+  }, [errors, touched, submitAttempted, dict.errors]);
 
   const hasVisibleErrors = Object.keys(visibleErrors).length > 0;
   const isSubmitting = status === "submitting";
@@ -79,8 +86,8 @@ export function ContactForm() {
   return (
     <div className="relative">
       <p className="sr-only" role="status" aria-live="polite">
-        {status === "submitting" && "Se trimite solicitarea…"}
-        {status === "success" && "Mulțumim! Am primit solicitarea ta. Te vom contacta în cel mai scurt timp."}
+        {status === "submitting" && dict.liveSubmitting}
+        {status === "success" && `${dict.successTitle} ${dict.successText}`}
       </p>
       <AnimatePresence mode="wait" initial={false}>
         {status === "success" ? (
@@ -102,17 +109,15 @@ export function ContactForm() {
             >
               <CheckCircle2 aria-hidden className="size-8" strokeWidth={1.75} />
             </motion.span>
-            <h3 className="mt-7 text-2xl font-semibold tracking-tight text-white">Mulțumim!</h3>
-            <p className="mt-3 max-w-sm leading-relaxed text-slate-400">
-              Am primit solicitarea ta. Te vom contacta în cel mai scurt timp.
-            </p>
+            <h3 className="mt-7 text-2xl font-semibold tracking-tight text-white">{dict.successTitle}</h3>
+            <p className="mt-3 max-w-sm leading-relaxed text-slate-400">{dict.successText}</p>
             <button
               type="button"
               onClick={reset}
               className="mt-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
             >
               <RotateCcw aria-hidden className="size-4" />
-              Trimite o nouă solicitare
+              {dict.reset}
             </button>
           </motion.div>
         ) : (
@@ -129,15 +134,15 @@ export function ContactForm() {
             aria-busy={isSubmitting}
           >
             <fieldset disabled={isSubmitting} className="grid gap-x-5 sm:grid-cols-2">
-              <legend className="sr-only">Date de contact și detalii despre solicitare</legend>
+              <legend className="sr-only">{dict.legend}</legend>
 
-              <Field id="name" label="Nume" error={visibleErrors.name}>
+              <Field id="name" label={dict.name.label} error={visibleErrors.name}>
                 <input
                   {...fieldA11y("name", visibleErrors.name)}
                   name="name"
                   type="text"
                   autoComplete="name"
-                  placeholder="Ex: Andrei Popescu"
+                  placeholder={dict.name.placeholder}
                   aria-required
                   value={data.name}
                   onChange={handleChange}
@@ -146,14 +151,14 @@ export function ContactForm() {
                 />
               </Field>
 
-              <Field id="phone" label="Telefon" error={visibleErrors.phone}>
+              <Field id="phone" label={dict.phone.label} error={visibleErrors.phone}>
                 <input
                   {...fieldA11y("phone", visibleErrors.phone)}
                   name="phone"
                   type="tel"
                   inputMode="tel"
                   autoComplete="tel"
-                  placeholder="07xx xxx xxx"
+                  placeholder={dict.phone.placeholder}
                   aria-required
                   value={data.phone}
                   onChange={handleChange}
@@ -162,14 +167,14 @@ export function ContactForm() {
                 />
               </Field>
 
-              <Field id="email" label="Email" optional error={visibleErrors.email}>
+              <Field id="email" label={dict.email.label} optionalLabel={dict.optional} error={visibleErrors.email}>
                 <input
                   {...fieldA11y("email", visibleErrors.email)}
                   name="email"
                   type="email"
                   inputMode="email"
                   autoComplete="email"
-                  placeholder="nume@exemplu.ro"
+                  placeholder={dict.email.placeholder}
                   value={data.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -177,7 +182,7 @@ export function ContactForm() {
                 />
               </Field>
 
-              <Field id="service" label="Serviciu dorit" optional>
+              <Field id="service" label={dict.service.label} optionalLabel={dict.optional}>
                 <div className="relative">
                   <select
                     {...fieldA11y("service")}
@@ -191,8 +196,8 @@ export function ContactForm() {
                       data.service === "" && "text-slate-500",
                     )}
                   >
-                    <option value="">Alege un serviciu</option>
-                    {SERVICE_OPTIONS.map((option) => (
+                    <option value="">{dict.service.placeholder}</option>
+                    {serviceOptions.map((option) => (
                       <option key={option.value} value={option.value} className="text-ink-900">
                         {option.label}
                       </option>
@@ -211,10 +216,10 @@ export function ContactForm() {
 
               <Field
                 id="message"
-                label="Mesaj"
+                label={dict.message.label}
                 className="sm:col-span-2"
                 error={visibleErrors.message}
-                hint={`Descrie pe scurt problema: tipul dăunătorului, spațiul, de când apare (minim ${MESSAGE_MIN_LENGTH} caractere).`}
+                hint={fillTemplate(dict.message.hint, { min: MESSAGE_MIN_LENGTH })}
               >
                 <div className="relative">
                   <textarea
@@ -222,7 +227,7 @@ export function ContactForm() {
                     name="message"
                     rows={5}
                     maxLength={MESSAGE_MAX_LENGTH}
-                    placeholder="Ex: Am observat gândaci în bucătărie de aproximativ două săptămâni…"
+                    placeholder={dict.message.placeholder}
                     aria-required
                     value={data.message}
                     onChange={handleChange}
@@ -241,18 +246,17 @@ export function ContactForm() {
 
             <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <p id="form-note" className="text-xs leading-relaxed text-slate-500 sm:max-w-xs">
-                Câmpurile marcate cu <span className="text-accent-400">*</span> sunt obligatorii. Formular demonstrativ
-                — datele nu sunt transmise către un server.
+                {dict.requiredBefore} <span className="text-accent-400">*</span> {dict.requiredAfter} {dict.demoNote}
               </p>
               <Button type="submit" size="lg" disabled={isSubmitting || hasVisibleErrors} className="w-full sm:w-auto">
                 {isSubmitting ? (
                   <>
                     <Loader2 aria-hidden className="size-4 animate-spin" />
-                    Se trimite…
+                    {dict.submitting}
                   </>
                 ) : (
                   <>
-                    Trimite solicitarea
+                    {dict.submit}
                     <ArrowRight
                       aria-hidden
                       className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5"

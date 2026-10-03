@@ -1,14 +1,17 @@
 import { ArrowUpRight, Check } from "lucide-react";
 
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
-import type { Service } from "@/types";
+import type { Dictionary, Service } from "@/types";
 
 interface ServiceCardProps {
   service: Service;
+  text: Dictionary["services"]["items"][Service["id"]];
+  cta: string;
+  ctaFor: string;
   index: number;
 }
 
-export function ServiceCard({ service, index }: ServiceCardProps) {
+export function ServiceCard({ service, text, cta, ctaFor, index }: ServiceCardProps) {
   const Icon = service.icon;
 
   return (
@@ -24,12 +27,12 @@ export function ServiceCard({ service, index }: ServiceCardProps) {
       </div>
 
       <h3 id={`serviciu-${service.id}`} className="relative mt-8 text-xl font-semibold tracking-tight text-white">
-        {service.title}
+        {text.title}
       </h3>
-      <p className="relative mt-3 leading-relaxed text-slate-400">{service.description}</p>
+      <p className="relative mt-3 leading-relaxed text-slate-400">{text.description}</p>
 
       <ul className="relative mt-6 space-y-2.5 border-t border-white/6 pt-6 text-sm text-slate-300">
-        {service.highlights.map((item) => (
+        {text.highlights.map((item) => (
           <li key={item} className="flex gap-2.5">
             <Check aria-hidden className="mt-0.5 size-4 shrink-0 text-accent-400" />
             {item}
@@ -41,7 +44,11 @@ export function ServiceCard({ service, index }: ServiceCardProps) {
         href="#contact"
         className="relative mt-auto inline-flex items-center gap-1.5 self-start rounded-md pt-8 text-sm font-medium text-white transition-colors hover:text-accent-300"
       >
-        Solicită ofertă<span className="sr-only"> pentru {service.title.toLowerCase()}</span>
+        {cta}
+        <span className="sr-only">
+          {" "}
+          {ctaFor} {text.title.toLowerCase()}
+        </span>
         <ArrowUpRight
           aria-hidden
           className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

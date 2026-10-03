@@ -7,13 +7,22 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
-import { NAV_ITEMS } from "@/data/content";
+import { NAV_SECTIONS } from "@/data/content";
 import { useActiveSection } from "@/hooks/useActiveSection";
+import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
+import type { NavDictionary } from "@/types";
 
-const SECTION_IDS = ["acasa", ...NAV_ITEMS.map((item) => item.href.slice(1))];
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
-export function Navbar() {
+const SECTION_IDS = ["acasa", ...NAV_SECTIONS];
+
+interface NavbarProps {
+  dict: NavDictionary;
+  locale: Locale;
+}
+
+export function Navbar({ dict, locale }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const active = useActiveSection(SECTION_IDS);
@@ -64,20 +73,20 @@ export function Navbar() {
       >
         <Container
           as="nav"
-          aria-label="Navigare principală"
+          aria-label={dict.ariaLabel}
           className="flex h-16 items-center justify-between gap-6 md:h-18"
         >
-          <a href="#acasa" className="rounded-lg" aria-label="DeratPro — înapoi sus" onClick={closeMenu}>
+          <a href="#acasa" className="rounded-lg" aria-label={dict.homeLabel} onClick={closeMenu}>
             <Logo />
           </a>
 
           <ul className="hidden items-center gap-1 md:flex">
-            {NAV_ITEMS.map((item) => {
-              const isActive = active === item.href.slice(1);
+            {NAV_SECTIONS.map((id) => {
+              const isActive = active === id;
               return (
-                <li key={item.href}>
+                <li key={id}>
                   <a
-                    href={item.href}
+                    href={`#${id}`}
                     aria-current={isActive ? "true" : undefined}
                     className={cn(
                       "relative isolate rounded-full px-3.5 py-2 text-sm transition-colors duration-300",
@@ -91,7 +100,7 @@ export function Navbar() {
                         transition={{ type: "spring", stiffness: 380, damping: 32 }}
                       />
                     )}
-                    {item.label}
+                    {dict.items[id]}
                   </a>
                 </li>
               );
@@ -99,8 +108,9 @@ export function Navbar() {
           </ul>
 
           <div className="flex items-center gap-2">
+            <LanguageSwitcher locale={locale} label={dict.languageLabel} hash={active} />
             <Button href="#contact" size="md" className="max-md:hidden">
-              Solicită ofertă
+              {dict.cta}
               <ArrowRight
                 aria-hidden
                 className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5"
@@ -113,7 +123,7 @@ export function Navbar() {
               onClick={() => setOpen((value) => !value)}
               aria-expanded={open}
               aria-controls="meniu-mobil"
-              aria-label={open ? "Închide meniul" : "Deschide meniul"}
+              aria-label={open ? dict.closeMenu : dict.openMenu}
               className="inline-flex size-11 items-center justify-center rounded-full border border-white/10 text-white transition-colors hover:bg-white/5 md:hidden"
             >
               {open ? <X aria-hidden className="size-5" /> : <Menu aria-hidden className="size-5" />}
@@ -135,27 +145,27 @@ export function Navbar() {
           >
             <Container className="flex h-full flex-col pt-6 pb-8">
               <ul className="flex flex-col">
-                {NAV_ITEMS.map((item, index) => (
+                {NAV_SECTIONS.map((id, index) => (
                   <motion.li
-                    key={item.href}
+                    key={id}
                     initial={{ opacity: 0, x: -12 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.05 + index * 0.05, duration: 0.35 }}
                     className="border-b border-white/6"
                   >
                     <a
-                      href={item.href}
+                      href={`#${id}`}
                       onClick={closeMenu}
                       className="flex items-center justify-between py-4 text-2xl font-medium tracking-tight text-white"
                     >
-                      {item.label}
+                      {dict.items[id]}
                       <span className="font-mono text-xs text-slate-500">0{index + 1}</span>
                     </a>
                   </motion.li>
                 ))}
               </ul>
               <Button href="#contact" size="lg" onClick={closeMenu} className="mt-auto w-full">
-                Solicită o ofertă
+                {dict.mobileCta}
                 <ArrowRight aria-hidden className="size-4" />
               </Button>
             </Container>

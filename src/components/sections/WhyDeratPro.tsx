@@ -5,8 +5,9 @@ import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ADVANTAGES } from "@/data/content";
+import type { Dictionary } from "@/types";
 
-export function WhyDeratPro() {
+export function WhyDeratPro({ dict }: { dict: Dictionary["why"] }) {
   return (
     <section
       id="de-ce-noi"
@@ -23,13 +24,13 @@ export function WhyDeratPro() {
           <SectionHeading
             id="de-ce-noi-title"
             tone="light"
-            eyebrow="De ce DeratPro"
-            title="Siguranță, rapiditate și rezultate pe care te poți baza."
-            description="Tratăm fiecare intervenție ca pe un proiect: înțelegem problema, alegem metoda potrivită și lucrăm curat, discret și responsabil."
+            eyebrow={dict.eyebrow}
+            title={dict.title}
+            description={dict.description}
           />
           <div className="mt-8">
             <Button href="#contact" variant="dark" size="lg">
-              Discută cu un specialist
+              {dict.cta}
               <ArrowRight
                 aria-hidden
                 className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5"
@@ -42,7 +43,7 @@ export function WhyDeratPro() {
           {ADVANTAGES.map((advantage, index) => {
             const Icon = advantage.icon;
             return (
-              <li key={advantage.title} className={index % 2 === 1 ? "sm:translate-y-10" : undefined}>
+              <li key={advantage.id} className={index % 2 === 1 ? "sm:translate-y-10" : undefined}>
                 <Reveal delay={index * 0.08} className="h-full">
                   <article className="group relative flex h-full flex-col rounded-(--radius-card) border border-ink-900/8 bg-mist-50 p-6 shadow-card-light transition-[box-shadow,border-color] duration-500 hover:border-ink-900/15 hover:shadow-[0_24px_48px_-24px_rgb(7_12_23/0.28)] sm:p-7">
                     <div className="flex items-center justify-between">
@@ -53,8 +54,8 @@ export function WhyDeratPro() {
                         0{index + 1}
                       </span>
                     </div>
-                    <h3 className="mt-8 text-lg font-semibold tracking-tight">{advantage.title}</h3>
-                    <p className="mt-2.5 leading-relaxed text-ink-700/75">{advantage.description}</p>
+                    <h3 className="mt-8 text-lg font-semibold tracking-tight">{dict.items[advantage.id].title}</h3>
+                    <p className="mt-2.5 leading-relaxed text-ink-700/75">{dict.items[advantage.id].description}</p>
                     <span
                       aria-hidden
                       className="mt-6 h-0.5 w-8 origin-left rounded-full bg-accent-500 transition-transform duration-500 ease-(--ease-out-expo) group-hover:scale-x-[2.5]"

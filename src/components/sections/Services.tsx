@@ -1,18 +1,12 @@
-import { Building2, Home } from "lucide-react";
-
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { SERVICES } from "@/data/content";
+import { AUDIENCES, SERVICES } from "@/data/content";
+import type { Dictionary } from "@/types";
 
 import { ServiceCard } from "./ServiceCard";
 
-const AUDIENCES = [
-  { label: "Clienți casnici", detail: "Case, apartamente, spații anexe", icon: Home },
-  { label: "Clienți comerciali", detail: "Birouri, HoReCa, depozite, retail", icon: Building2 },
-];
-
-export function Services() {
+export function Services({ dict }: { dict: Dictionary["services"] }) {
   return (
     <section id="servicii" aria-labelledby="servicii-title" className="relative py-24 sm:py-32">
       <Container>
@@ -20,23 +14,20 @@ export function Services() {
           <Reveal>
             <SectionHeading
               id="servicii-title"
-              eyebrow="Ce facem"
-              title="Servicii profesionale"
-              description="Trei servicii esențiale, adaptate fiecărui tip de spațiu. Fiecare intervenție începe cu o evaluare și se încheie cu recomandări de prevenție."
+              eyebrow={dict.eyebrow}
+              title={dict.title}
+              description={dict.description}
             />
           </Reveal>
 
           <Reveal delay={0.1}>
-            <ul className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row" aria-label="Pentru cine lucrăm">
-              {AUDIENCES.map(({ label, detail, icon: Icon }) => (
-                <li
-                  key={label}
-                  className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.02] px-4 py-3"
-                >
+            <ul className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row" aria-label={dict.audiencesLabel}>
+              {AUDIENCES.map(({ id, icon: Icon }) => (
+                <li key={id} className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/2 px-4 py-3">
                   <Icon aria-hidden className="size-5 text-accent-400" strokeWidth={1.75} />
                   <span className="text-sm">
-                    <span className="block font-medium text-white">{label}</span>
-                    <span className="text-slate-500">{detail}</span>
+                    <span className="block font-medium text-white">{dict.audiences[id].label}</span>
+                    <span className="text-slate-500">{dict.audiences[id].detail}</span>
                   </span>
                 </li>
               ))}
@@ -48,7 +39,13 @@ export function Services() {
           {SERVICES.map((service, index) => (
             <li key={service.id} className={index === 2 ? "md:col-span-2 lg:col-span-1" : undefined}>
               <Reveal delay={index * 0.08} className="h-full">
-                <ServiceCard service={service} index={index} />
+                <ServiceCard
+                  service={service}
+                  text={dict.items[service.id]}
+                  cta={dict.cardCta}
+                  ctaFor={dict.cardCtaFor}
+                  index={index}
+                />
               </Reveal>
             </li>
           ))}

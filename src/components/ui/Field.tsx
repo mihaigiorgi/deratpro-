@@ -8,24 +8,24 @@ interface FieldProps {
   label: string;
   error?: string;
   hint?: ReactNode;
-  optional?: boolean;
+  optionalLabel?: string;
   className?: string;
   children: ReactNode;
 }
 
-export function Field({ id, label, error, hint, optional, className, children }: FieldProps) {
+export function Field({ id, label, error, hint, optionalLabel, className, children }: FieldProps) {
   return (
     <div className={cn("flex flex-col", className)}>
       <div className="mb-2 flex items-baseline justify-between gap-3">
         <label htmlFor={id} className="text-sm font-medium text-slate-200">
           {label}
-          {!optional && (
+          {!optionalLabel && (
             <span aria-hidden className="ml-0.5 text-accent-400">
               *
             </span>
           )}
         </label>
-        {optional && <span className="text-xs text-slate-500">opțional</span>}
+        {optionalLabel && <span className="text-xs text-slate-500">{optionalLabel}</span>}
       </div>
 
       {children}

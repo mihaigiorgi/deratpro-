@@ -6,9 +6,5 @@ function resolveSiteUrl(): string {
 
 export const SITE = {
   name: "DeratPro",
-  title: "DeratPro — Deratizare, Dezinsecție & Dezinfecție",
-  description:
-    "Servicii profesionale de deratizare, dezinsecție și dezinfecție pentru locuințe și afaceri. Intervenție rapidă, substanțe avizate, personal autorizat. Solicită o ofertă.",
   url: resolveSiteUrl(),
-  locale: "ro_RO",
 } as const;

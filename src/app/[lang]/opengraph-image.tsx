@@ -1,12 +1,20 @@
 import { ImageResponse } from "next/og";
 
-import { SITE } from "@/lib/site";
+import { DEFAULT_LOCALE, hasLocale, LOCALES } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 
-export const alt = SITE.title;
+export function generateStaticParams() {
+  return LOCALES.map((lang) => ({ lang }));
+}
+export const alt = "DeratPro";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpengraphImage() {
+export default async function OpengraphImage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const locale = hasLocale(lang) ? lang : DEFAULT_LOCALE;
+  const { hero } = getDictionary(locale);
+
   return new ImageResponse(
     <div
       style={{
@@ -45,9 +53,9 @@ export default function OpengraphImage() {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
         <div style={{ fontSize: 76, fontWeight: 700, lineHeight: 1.05, letterSpacing: -2, maxWidth: 900 }}>
-          Protecție profesională împotriva dăunătorilor.
+          {`${hero.titleStart} ${hero.titleHighlight}`}
         </div>
-        <div style={{ fontSize: 30, color: "#94a3b8" }}>Deratizare · Dezinsecție · Dezinfecție</div>
+        <div style={{ fontSize: 30, color: "#94a3b8" }}>{hero.badge}</div>
       </div>
     </div>,
     size,

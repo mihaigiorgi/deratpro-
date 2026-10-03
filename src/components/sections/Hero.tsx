@@ -4,10 +4,9 @@ import { HeroVisual } from "@/components/three/HeroVisual";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import type { Dictionary } from "@/types";
 
-const TRUST_POINTS = ["Locuințe și spații comerciale", "Substanțe avizate", "Garanție pentru intervenții"];
-
-export function Hero() {
+export function Hero({ dict }: { dict: Dictionary["hero"] }) {
   return (
     <section
       id="acasa"
@@ -32,7 +31,7 @@ export function Hero() {
               <span className="font-semibold text-white">DeratPro</span>
               <span className="hidden items-center gap-2.5 min-[420px]:inline-flex">
                 <span className="h-3 w-px bg-white/15" aria-hidden />
-                Deratizare · Dezinsecție · Dezinfecție
+                {dict.badge}
               </span>
             </p>
           </Reveal>
@@ -42,38 +41,37 @@ export function Hero() {
               id="hero-title"
               className="mt-6 text-[2.35rem] leading-[1.05] font-semibold tracking-[-0.035em] text-balance text-white min-[400px]:text-[2.6rem] sm:text-6xl lg:text-[3.6rem] xl:text-[4rem]"
             >
-              Protecție profesională împotriva{" "}
+              {dict.titleStart}{" "}
               <span className="bg-linear-to-r from-accent-300 to-accent-500 bg-clip-text text-transparent">
-                dăunătorilor.
+                {dict.titleHighlight}
               </span>
             </h1>
           </Reveal>
 
           <Reveal delay={0.16}>
             <p className="mt-6 max-w-lg text-base leading-relaxed text-pretty text-slate-400 sm:text-lg">
-              Soluții rapide și eficiente de deratizare, dezinsecție și dezinfecție pentru locuințe și afaceri —
-              aplicate de specialiști, cu impact minim asupra activității tale.
+              {dict.description}
             </p>
           </Reveal>
 
           <Reveal delay={0.24}>
             <div className="mt-9 flex flex-col gap-3 min-[400px]:flex-row">
               <Button href="#contact" size="lg">
-                Solicită o ofertă
+                {dict.primaryCta}
                 <ArrowRight
                   aria-hidden
                   className="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5"
                 />
               </Button>
               <Button href="#servicii" size="lg" variant="secondary">
-                Vezi serviciile
+                {dict.secondaryCta}
               </Button>
             </div>
           </Reveal>
 
           <Reveal delay={0.32}>
             <ul className="mt-10 flex flex-col gap-3 text-sm text-slate-400 sm:flex-row sm:flex-wrap sm:gap-x-6">
-              {TRUST_POINTS.map((point) => (
+              {dict.trustPoints.map((point) => (
                 <li key={point} className="flex items-center gap-2">
                   <span className="flex size-5 items-center justify-center rounded-full bg-accent-400/12 text-accent-400">
                     <Check aria-hidden className="size-3" strokeWidth={3} />
@@ -91,13 +89,15 @@ export function Hero() {
       <div className="pointer-events-none absolute right-6 bottom-8 hidden lg:block xl:right-10">
         <div className="glass flex items-center gap-4 rounded-2xl px-4 py-3 text-xs text-slate-400">
           <span className="flex items-center gap-2">
-            <span aria-hidden className="size-2 rounded-full bg-pest-400" /> Dăunător
+            <span aria-hidden className="size-2 rounded-full bg-pest-400" /> {dict.legendPest}
           </span>
           <span className="flex items-center gap-2">
-            <span aria-hidden className="size-2 rounded-full bg-accent-400" /> Neutralizat
+            <span aria-hidden className="size-2 rounded-full bg-accent-400" /> {dict.legendNeutralized}
           </span>
           <span className="h-3 w-px bg-white/10" aria-hidden />
-          <span className="font-mono text-[0.7rem] tracking-wider text-slate-500 uppercase">Casă protejată</span>
+          <span className="font-mono text-[0.7rem] tracking-wider text-slate-500 uppercase">
+            {dict.legendProtected}
+          </span>
         </div>
       </div>
     </section>
