@@ -23,11 +23,11 @@ export function Services({ dict }: { dict: Dictionary["services"] }) {
           <Reveal delay={0.1}>
             <ul className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row" aria-label={dict.audiencesLabel}>
               {AUDIENCES.map(({ id, icon: Icon }) => (
-                <li key={id} className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/2 px-4 py-3">
-                  <Icon aria-hidden className="size-5 text-accent-400" strokeWidth={1.75} />
+                <li key={id} className="flex items-center gap-3 rounded-2xl border border-fg/8 bg-fg/2 px-4 py-3">
+                  <Icon aria-hidden className="size-5 text-brand" strokeWidth={1.75} />
                   <span className="text-sm">
-                    <span className="block font-medium text-white">{dict.audiences[id].label}</span>
-                    <span className="text-slate-500">{dict.audiences[id].detail}</span>
+                    <span className="block font-medium text-fg">{dict.audiences[id].label}</span>
+                    <span className="text-fg-subtle">{dict.audiences[id].detail}</span>
                   </span>
                 </li>
               ))}

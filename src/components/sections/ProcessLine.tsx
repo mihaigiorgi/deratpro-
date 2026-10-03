@@ -13,7 +13,7 @@ export function ProcessLine() {
         whileInView={{ scaleY: 1 }}
         viewport={viewport}
         transition={transition}
-        className="absolute top-7 bottom-7 left-7 w-px origin-top bg-linear-to-b from-accent-400/70 via-accent-400/30 to-white/5 md:hidden"
+        className="absolute top-7 bottom-7 left-7 w-px origin-top bg-linear-to-b from-brand/70 via-brand/30 to-fg/5 md:hidden"
       />
 
       <motion.span
@@ -21,7 +21,7 @@ export function ProcessLine() {
         whileInView={{ scaleX: 1 }}
         viewport={viewport}
         transition={transition}
-        className="absolute top-7 right-[16.66%] left-[16.66%] hidden h-px origin-left bg-linear-to-r from-accent-400/70 via-accent-400/30 to-accent-400/70 md:block"
+        className="absolute top-7 right-[16.66%] left-[16.66%] hidden h-px origin-left bg-linear-to-r from-brand/70 via-brand/30 to-brand/70 md:block"
       />
     </div>
   );

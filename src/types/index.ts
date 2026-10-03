@@ -72,6 +72,8 @@ export interface NavDictionary {
   openMenu: string;
   closeMenu: string;
   languageLabel: string;
+  themeLabel: string;
+  themeMenu: string;
 }
 
 export interface FormDictionary {

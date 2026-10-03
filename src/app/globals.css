@@ -1,5 +1,70 @@
 @import "tailwindcss";
 
+@custom-variant light (&:where([data-theme="light"] *));
+
+:root,
+[data-theme="dark"],
+[data-theme="light"] .theme-invert {
+  color-scheme: dark;
+  --theme-page: #070c17;
+  --theme-page-deep: #04070d;
+  --theme-surface: #0f182b;
+  --theme-surface-2: #0a1120;
+  --theme-fg: #ffffff;
+  --theme-fg-strong: #e2e8f0;
+  --theme-fg-soft: #cbd5e1;
+  --theme-fg-muted: #94a3b8;
+  --theme-fg-subtle: #64748b;
+  --theme-brand: #b8f24a;
+  --theme-brand-soft: #d0f77f;
+  --theme-brand-strong: #9fdc27;
+  --theme-danger: #fda4af;
+  --theme-danger-line: #fb7185;
+  --theme-glass: rgb(15 24 43 / 0.55);
+  --theme-grid-line: rgb(255 255 255 / 0.035);
+  --theme-shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 20px 40px -24px rgb(0 0 0 / 0.6);
+}
+
+[data-theme="light"],
+[data-theme="dark"] .theme-invert {
+  color-scheme: light;
+  --theme-page: #fafaf7;
+  --theme-page-deep: #f3f4ef;
+  --theme-surface: #ffffff;
+  --theme-surface-2: #f3f4ef;
+  --theme-fg: #070c17;
+  --theme-fg-strong: #0f182b;
+  --theme-fg-soft: #334155;
+  --theme-fg-muted: #475569;
+  --theme-fg-subtle: #64748b;
+  --theme-brand: #4f7a0a;
+  --theme-brand-soft: #4f7a0a;
+  --theme-brand-strong: #3b5c07;
+  --theme-danger: #be123c;
+  --theme-danger-line: #f43f5e;
+  --theme-glass: rgb(255 255 255 / 0.72);
+  --theme-grid-line: rgb(7 12 23 / 0.05);
+  --theme-shadow-card: 0 1px 2px rgb(7 12 23 / 0.04), 0 16px 32px -20px rgb(7 12 23 / 0.18);
+}
+
+@theme inline {
+  --color-page: var(--theme-page);
+  --color-page-deep: var(--theme-page-deep);
+  --color-surface: var(--theme-surface);
+  --color-surface-2: var(--theme-surface-2);
+  --color-fg: var(--theme-fg);
+  --color-fg-strong: var(--theme-fg-strong);
+  --color-fg-soft: var(--theme-fg-soft);
+  --color-fg-muted: var(--theme-fg-muted);
+  --color-fg-subtle: var(--theme-fg-subtle);
+  --color-brand: var(--theme-brand);
+  --color-brand-soft: var(--theme-brand-soft);
+  --color-brand-strong: var(--theme-brand-strong);
+  --color-danger: var(--theme-danger);
+  --color-danger-line: var(--theme-danger-line);
+  --shadow-card: var(--theme-shadow-card);
+}
+
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
@@ -29,8 +94,6 @@
   --radius-card: 1.25rem;
   --radius-panel: 1.75rem;
 
-  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 20px 40px -24px rgb(0 0 0 / 0.6);
-  --shadow-card-light: 0 1px 2px rgb(7 12 23 / 0.04), 0 16px 32px -20px rgb(7 12 23 / 0.18);
   --shadow-glow: 0 0 0 1px rgb(184 242 74 / 0.35), 0 10px 40px -10px rgb(184 242 74 / 0.45);
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -50,11 +113,10 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
   }
 
   body {
-    @apply bg-ink-900 font-sans text-slate-300 antialiased;
+    @apply bg-page font-sans text-fg-soft antialiased;
   }
 
   section[id] {
@@ -66,7 +128,7 @@
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-accent-400;
+    @apply outline-2 outline-offset-2 outline-brand;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -85,15 +147,8 @@
 
 @utility bg-grid {
   background-image:
-    linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
-  background-size: 56px 56px;
-}
-
-@utility bg-grid-light {
-  background-image:
-    linear-gradient(to right, rgb(7 12 23 / 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(7 12 23 / 0.05) 1px, transparent 1px);
+    linear-gradient(to right, var(--theme-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--theme-grid-line) 1px, transparent 1px);
   background-size: 56px 56px;
 }
 
@@ -102,8 +157,8 @@
 }
 
 @utility glass {
-  background-color: rgb(15 24 43 / 0.55);
+  background-color: var(--theme-glass);
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
-  border: 1px solid rgb(255 255 255 / 0.08);
+  border: 1px solid color-mix(in oklab, var(--theme-fg) 8%, transparent);
 }

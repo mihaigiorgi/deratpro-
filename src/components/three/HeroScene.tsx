@@ -25,9 +25,32 @@ const SPAWN_MAX = 4.6;
 const POINTER_RADIUS = 1.1;
 const NEUTRALIZED_LIFE = 1.4;
 
-const COLOR_THREAT = new THREE.Color("#f2a93b");
-const COLOR_NEUTRAL = new THREE.Color("#b8f24a");
-const COLOR_LIME = new THREE.Color("#b8f24a");
+export type SceneTheme = "dark" | "light";
+
+interface ScenePalette {
+  threat: THREE.Color;
+  neutral: THREE.Color;
+  lime: THREE.Color;
+  houseFill: string;
+  blending: THREE.Blending;
+}
+
+const PALETTES: Record<SceneTheme, ScenePalette> = {
+  dark: {
+    threat: new THREE.Color("#f2a93b"),
+    neutral: new THREE.Color("#b8f24a"),
+    lime: new THREE.Color("#b8f24a"),
+    houseFill: "#0a1120",
+    blending: THREE.AdditiveBlending,
+  },
+  light: {
+    threat: new THREE.Color("#d97706"),
+    neutral: new THREE.Color("#5b8c0c"),
+    lime: new THREE.Color("#4f7a0a"),
+    houseFill: "#fafaf7",
+    blending: THREE.NormalBlending,
+  },
+};
 
 interface HitState {
   dir: THREE.Vector3;
@@ -113,7 +136,7 @@ function buildHouseBody(): THREE.BufferGeometry {
   return geometry;
 }
 
-function House() {
+function House({ palette }: { palette: ScenePalette }) {
   const lines = useMemo(() => {
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", new THREE.BufferAttribute(buildHouseLines(), 3));
@@ -125,7 +148,7 @@ function House() {
     <group rotation={[0, -0.6, 0]}>
       <mesh geometry={body}>
         <meshBasicMaterial
-          color="#0a1120"
+          color={palette.houseFill}
           side={THREE.DoubleSide}
           polygonOffset
           polygonOffsetFactor={1}
@@ -133,18 +156,18 @@ function House() {
         />
       </mesh>
       <lineSegments geometry={lines}>
-        <lineBasicMaterial color={COLOR_LIME} transparent opacity={0.85} />
+        <lineBasicMaterial color={palette.lime} transparent opacity={0.85} />
       </lineSegments>
 
       <mesh position={[0.37, GROUND_Y + 0.39, D / 2 + 0.002]}>
         <planeGeometry args={[0.17, 0.17]} />
-        <meshBasicMaterial color={COLOR_LIME} transparent opacity={0.35} />
+        <meshBasicMaterial color={palette.lime} transparent opacity={0.35} />
       </mesh>
     </group>
   );
 }
 
-function Ground() {
+function Ground({ palette }: { palette: ScenePalette }) {
   const geometry = useMemo(() => {
     const points: number[] = [];
     for (const radius of [0.7, 1.3, DOME_RADIUS, 2.6, 3.3]) {
@@ -169,18 +192,24 @@ function Ground() {
   return (
     <group>
       <lineSegments geometry={geometry}>
-        <lineBasicMaterial color={COLOR_LIME} transparent opacity={0.1} depthWrite={false} />
+        <lineBasicMaterial color={palette.lime} transparent opacity={0.1} depthWrite={false} />
       </lineSegments>
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, GROUND_Y - 0.001, 0]}>
         <circleGeometry args={[DOME_RADIUS, 64]} />
-        <meshBasicMaterial color={COLOR_LIME} transparent opacity={0.05} depthWrite={false} />
+        <meshBasicMaterial color={palette.lime} transparent opacity={0.05} depthWrite={false} />
       </mesh>
     </group>
   );
 }
 
-function Dome({ segments, hit }: { segments: number; hit: RefObject<HitState> }) {
+interface DomeProps {
+  segments: number;
+  hit: RefObject<HitState>;
+  palette: ScenePalette;
+}
+
+function Dome({ segments, hit, palette }: DomeProps) {
   const geometry = useMemo(
     () => new THREE.SphereGeometry(DOME_RADIUS, segments, Math.round(segments / 2), 0, Math.PI * 2, 0, Math.PI / 2),
     [segments],
@@ -220,7 +249,7 @@ function Dome({ segments, hit }: { segments: number; hit: RefObject<HitState> })
 
   const uniforms = useMemo(
     () => ({
-      uColor: { value: COLOR_LIME.clone() },
+      uColor: { value: new THREE.Color() },
       uTime: { value: 0 },
       uHitDir: { value: new THREE.Vector3(0, 1, 0) },
       uHitAge: { value: 10 },
@@ -234,6 +263,7 @@ function Dome({ segments, hit }: { segments: number; hit: RefObject<HitState> })
     uniforms.uTime.value = state.clock.elapsedTime;
     uniforms.uHitAge.value = hit.current.age;
     uniforms.uHitDir.value.copy(hit.current.dir);
+    uniforms.uColor.value.copy(palette.lime);
   });
 
   return (
@@ -246,11 +276,11 @@ function Dome({ segments, hit }: { segments: number; hit: RefObject<HitState> })
           transparent
           depthWrite={false}
           side={THREE.DoubleSide}
-          blending={THREE.AdditiveBlending}
+          blending={palette.blending}
         />
       </mesh>
       <lineSegments geometry={grid}>
-        <lineBasicMaterial color={COLOR_LIME} transparent opacity={0.12} depthWrite={false} />
+        <lineBasicMaterial color={palette.lime} transparent opacity={0.12} depthWrite={false} />
       </lineSegments>
     </group>
   );
@@ -275,7 +305,7 @@ function randomSpawn(target: Float32Array, i: number) {
   target[i * 3 + 2] = Math.cos(elevation) * Math.sin(angle) * r;
 }
 
-function createParticleState(count: number): ParticleState {
+function createParticleState(count: number, color: THREE.Color): ParticleState {
   const state: ParticleState = {
     positions: new Float32Array(count * 3),
     velocities: new Float32Array(count * 3),
@@ -287,7 +317,7 @@ function createParticleState(count: number): ParticleState {
   };
   for (let i = 0; i < count; i++) {
     randomSpawn(state.positions, i);
-    COLOR_THREAT.toArray(state.colors, i * 3);
+    color.toArray(state.colors, i * 3);
     state.sizes[i] = 3.5 + Math.random() * 4.5;
     state.spawnFade[i] = Math.random();
   }
@@ -298,14 +328,15 @@ interface ParticlesProps {
   count: number;
   hit: RefObject<HitState>;
   pointer: RefObject<PointerTarget>;
+  palette: ScenePalette;
 }
 
-function Particles({ count, hit, pointer }: ParticlesProps) {
+function Particles({ count, hit, pointer, palette }: ParticlesProps) {
   const geometryRef = useRef<THREE.BufferGeometry>(null);
   const pointsRef = useRef<THREE.Points>(null);
   const { viewport, gl } = useThree();
 
-  const state = useMemo(() => createParticleState(count), [count]);
+  const state = useMemo(() => createParticleState(count, PALETTES.dark.threat), [count]);
   const uniforms = useMemo(() => ({ uPixelRatio: { value: gl.getPixelRatio() } }), [gl]);
 
   const pointerWorld = useMemo(() => new THREE.Vector3(), []);
@@ -348,7 +379,7 @@ function Particles({ count, hit, pointer }: ParticlesProps) {
         if (neutralized[i] <= 0) {
           randomSpawn(positions, i);
           velocities[ix] = velocities[ix + 1] = velocities[ix + 2] = 0;
-          COLOR_THREAT.toArray(colors, ix);
+          palette.threat.toArray(colors, ix);
           spawnFade[i] = 0;
           alphas[i] = 0;
           continue;
@@ -386,12 +417,12 @@ function Particles({ count, hit, pointer }: ParticlesProps) {
         alphas[i] = spawnFade[i] * edgeFade;
 
         const proximity = THREE.MathUtils.clamp((r - DOME_RADIUS) / (SPAWN_MAX - DOME_RADIUS), 0, 1);
-        tmpColor.copy(COLOR_THREAT).lerp(COLOR_NEUTRAL, (1 - proximity) * 0.2);
+        tmpColor.copy(palette.threat).lerp(palette.neutral, (1 - proximity) * 0.2);
         tmpColor.toArray(colors, ix);
 
         if (r < DOME_RADIUS * 1.03) {
           neutralized[i] = NEUTRALIZED_LIFE;
-          COLOR_NEUTRAL.toArray(colors, ix);
+          palette.neutral.toArray(colors, ix);
           const bounce = 0.9 + Math.random() * 0.5;
           vx = (dx0 / r) * bounce;
           vy = Math.abs(dy0 / r) * bounce;
@@ -417,7 +448,7 @@ function Particles({ count, hit, pointer }: ParticlesProps) {
         velocities[ix] = velocities[ix + 1] = velocities[ix + 2] = 0;
         spawnFade[i] = 0;
         neutralized[i] = 0;
-        COLOR_THREAT.toArray(colors, ix);
+        palette.threat.toArray(colors, ix);
         continue;
       }
 
@@ -448,7 +479,7 @@ function Particles({ count, hit, pointer }: ParticlesProps) {
         uniforms={uniforms}
         transparent
         depthWrite={false}
-        blending={THREE.AdditiveBlending}
+        blending={palette.blending}
       />
     </points>
   );
@@ -476,10 +507,12 @@ interface HeroSceneProps {
   quality: SceneQuality;
   frameloop: "always" | "demand" | "never";
   pointer: RefObject<PointerTarget>;
+  theme: SceneTheme;
   onReady?: () => void;
 }
 
-export default function HeroScene({ quality, frameloop, pointer, onReady }: HeroSceneProps) {
+export default function HeroScene({ quality, frameloop, pointer, theme, onReady }: HeroSceneProps) {
+  const palette = PALETTES[theme];
   const hit = useRef<HitState>({ dir: new THREE.Vector3(0, 1, 0), age: 10 });
 
   return (
@@ -496,10 +529,10 @@ export default function HeroScene({ quality, frameloop, pointer, onReady }: Hero
       aria-hidden
     >
       <Rig pointer={pointer}>
-        <Ground />
-        <House />
-        <Dome segments={quality.domeSegments} hit={hit} />
-        <Particles count={quality.particles} hit={hit} pointer={pointer} />
+        <Ground palette={palette} />
+        <House palette={palette} />
+        <Dome segments={quality.domeSegments} hit={hit} palette={palette} />
+        <Particles count={quality.particles} hit={hit} pointer={pointer} palette={palette} />
       </Rig>
     </Canvas>
   );

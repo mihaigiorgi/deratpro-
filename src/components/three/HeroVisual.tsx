@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 
 import { useIsClient, useMediaQuery } from "@/hooks/useMediaQuery";
+import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 import type { PointerTarget, SceneQuality } from "./HeroScene";
@@ -27,6 +28,7 @@ export function HeroVisual({ className }: { className?: string }) {
   const smallScreen = useMediaQuery("(max-width: 767px)");
   const coarsePointer = useMediaQuery("(pointer: coarse)");
   const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const theme = useTheme();
   const quality = isClient ? pickQuality(smallScreen, coarsePointer) : null;
   const pointer = useRef<PointerTarget>({ x: 0, y: 0, active: false });
 
@@ -68,12 +70,18 @@ export function HeroVisual({ className }: { className?: string }) {
           ready ? "opacity-0" : "opacity-100",
         )}
       >
-        <div className="aspect-[2/1] w-[52%] translate-y-[10%] rounded-t-full border border-b-0 border-accent-400/25 shadow-[inset_0_20px_60px_rgb(184_242_74/0.1)]" />
+        <div className="aspect-[2/1] w-[52%] translate-y-[10%] rounded-t-full border border-b-0 border-brand/25 shadow-[inset_0_20px_60px_rgb(184_242_74/0.1)]" />
       </div>
 
       {quality && (
         <div className={cn("absolute inset-0 transition-opacity duration-1000", ready ? "opacity-100" : "opacity-0")}>
-          <HeroScene quality={quality} frameloop={frameloop} pointer={pointer} onReady={() => setReady(true)} />
+          <HeroScene
+            quality={quality}
+            frameloop={frameloop}
+            pointer={pointer}
+            theme={theme}
+            onReady={() => setReady(true)}
+          />
         </div>
       )}
     </div>

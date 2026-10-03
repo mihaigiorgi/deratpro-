@@ -14,10 +14,7 @@ export function Hero({ dict }: { dict: Dictionary["hero"] }) {
       className="relative isolate overflow-hidden pt-24 pb-16 sm:pt-28 md:pt-32 lg:flex lg:min-h-[min(100svh,56rem)] lg:items-center lg:pt-24 lg:pb-20"
     >
       <div aria-hidden className="bg-grid mask-radial absolute inset-0 -z-10" />
-      <div
-        aria-hidden
-        className="absolute -top-40 right-[-10%] -z-10 size-168 rounded-full bg-accent-400/7 blur-[120px]"
-      />
+      <div aria-hidden className="absolute -top-40 right-[-10%] -z-10 size-168 rounded-full bg-brand/7 blur-[120px]" />
       <div
         aria-hidden
         className="absolute bottom-[-20%] left-[-15%] -z-10 size-144 rounded-full bg-glow-500/5 blur-[120px]"
@@ -26,11 +23,11 @@ export function Hero({ dict }: { dict: Dictionary["hero"] }) {
       <Container className="relative">
         <div className="max-w-xl lg:max-w-152">
           <Reveal y={16}>
-            <p className="glass inline-flex items-center gap-2.5 rounded-full py-1.5 pr-4 pl-2 text-xs font-medium text-slate-300 sm:text-sm">
+            <p className="glass inline-flex items-center gap-2.5 rounded-full py-1.5 pr-4 pl-2 text-xs font-medium text-fg-soft sm:text-sm">
               <span className="relative flex size-2 rounded-full bg-accent-400 animate-pulse-dot" aria-hidden />
-              <span className="font-semibold text-white">DeratPro</span>
+              <span className="font-semibold text-fg">DeratPro</span>
               <span className="hidden items-center gap-2.5 min-[420px]:inline-flex">
-                <span className="h-3 w-px bg-white/15" aria-hidden />
+                <span className="h-3 w-px bg-fg/15" aria-hidden />
                 {dict.badge}
               </span>
             </p>
@@ -39,17 +36,17 @@ export function Hero({ dict }: { dict: Dictionary["hero"] }) {
           <Reveal delay={0.08}>
             <h1
               id="hero-title"
-              className="mt-6 text-[2.35rem] leading-[1.05] font-semibold tracking-[-0.035em] text-balance text-white min-[400px]:text-[2.6rem] sm:text-6xl lg:text-[3.6rem] xl:text-[4rem]"
+              className="mt-6 text-[2.35rem] leading-[1.05] font-semibold tracking-[-0.035em] text-balance text-fg min-[400px]:text-[2.6rem] sm:text-6xl lg:text-[3.6rem] xl:text-[4rem]"
             >
               {dict.titleStart}{" "}
-              <span className="bg-linear-to-r from-accent-300 to-accent-500 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-brand-soft to-brand-strong bg-clip-text text-transparent">
                 {dict.titleHighlight}
               </span>
             </h1>
           </Reveal>
 
           <Reveal delay={0.16}>
-            <p className="mt-6 max-w-lg text-base leading-relaxed text-pretty text-slate-400 sm:text-lg">
+            <p className="mt-6 max-w-lg text-base leading-relaxed text-pretty text-fg-muted sm:text-lg">
               {dict.description}
             </p>
           </Reveal>
@@ -70,10 +67,10 @@ export function Hero({ dict }: { dict: Dictionary["hero"] }) {
           </Reveal>
 
           <Reveal delay={0.32}>
-            <ul className="mt-10 flex flex-col gap-3 text-sm text-slate-400 sm:flex-row sm:flex-wrap sm:gap-x-6">
+            <ul className="mt-10 flex flex-col gap-3 text-sm text-fg-muted sm:flex-row sm:flex-wrap sm:gap-x-6">
               {dict.trustPoints.map((point) => (
                 <li key={point} className="flex items-center gap-2">
-                  <span className="flex size-5 items-center justify-center rounded-full bg-accent-400/12 text-accent-400">
+                  <span className="flex size-5 items-center justify-center rounded-full bg-brand/12 text-brand">
                     <Check aria-hidden className="size-3" strokeWidth={3} />
                   </span>
                   {point}
@@ -87,15 +84,15 @@ export function Hero({ dict }: { dict: Dictionary["hero"] }) {
       <HeroVisual className="mt-10 h-80 w-full sm:h-104 md:h-120 lg:absolute lg:inset-y-0 lg:right-[-8%] lg:mt-0 lg:h-auto lg:w-[60%]" />
 
       <div className="pointer-events-none absolute right-6 bottom-8 hidden lg:block xl:right-10">
-        <div className="glass flex items-center gap-4 rounded-2xl px-4 py-3 text-xs text-slate-400">
+        <div className="glass flex items-center gap-4 rounded-2xl px-4 py-3 text-xs text-fg-muted">
           <span className="flex items-center gap-2">
             <span aria-hidden className="size-2 rounded-full bg-pest-400" /> {dict.legendPest}
           </span>
           <span className="flex items-center gap-2">
             <span aria-hidden className="size-2 rounded-full bg-accent-400" /> {dict.legendNeutralized}
           </span>
-          <span className="h-3 w-px bg-white/10" aria-hidden />
-          <span className="font-mono text-[0.7rem] tracking-wider text-slate-500 uppercase">
+          <span className="h-3 w-px bg-fg/10" aria-hidden />
+          <span className="font-mono text-[0.7rem] tracking-wider text-fg-subtle uppercase">
             {dict.legendProtected}
           </span>
         </div>

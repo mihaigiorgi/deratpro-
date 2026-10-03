@@ -29,8 +29,8 @@ export function Logo({ className }: LogoProps) {
 
         <path d="M16 14.2v6.8" className="stroke-accent-400" strokeWidth="0.8" />
       </svg>
-      <span className="text-lg font-semibold tracking-tight text-white">
-        Derat<span className="text-accent-400">Pro</span>
+      <span className="text-lg font-semibold tracking-tight text-fg">
+        Derat<span className="text-brand">Pro</span>
       </span>
     </span>
   );

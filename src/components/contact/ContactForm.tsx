@@ -105,16 +105,16 @@ export function ContactForm({ dict, serviceOptions }: ContactFormProps) {
               initial={{ scale: 0.6, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.1, type: "spring", stiffness: 260, damping: 18 }}
-              className="flex size-16 items-center justify-center rounded-full bg-accent-400/12 text-accent-400 ring-8 ring-accent-400/5"
+              className="flex size-16 items-center justify-center rounded-full bg-brand/12 text-brand ring-8 ring-brand/5"
             >
               <CheckCircle2 aria-hidden className="size-8" strokeWidth={1.75} />
             </motion.span>
-            <h3 className="mt-7 text-2xl font-semibold tracking-tight text-white">{dict.successTitle}</h3>
-            <p className="mt-3 max-w-sm leading-relaxed text-slate-400">{dict.successText}</p>
+            <h3 className="mt-7 text-2xl font-semibold tracking-tight text-fg">{dict.successTitle}</h3>
+            <p className="mt-3 max-w-sm leading-relaxed text-fg-muted">{dict.successText}</p>
             <button
               type="button"
               onClick={reset}
-              className="mt-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+              className="mt-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-fg-soft transition-colors hover:bg-fg/5 hover:text-fg"
             >
               <RotateCcw aria-hidden className="size-4" />
               {dict.reset}
@@ -193,12 +193,12 @@ export function ContactForm({ dict, serviceOptions }: ContactFormProps) {
                     className={cn(
                       controlClasses(false),
                       "h-12 appearance-none pr-10",
-                      data.service === "" && "text-slate-500",
+                      data.service === "" && "text-fg-subtle",
                     )}
                   >
                     <option value="">{dict.service.placeholder}</option>
                     {serviceOptions.map((option) => (
-                      <option key={option.value} value={option.value} className="text-ink-900">
+                      <option key={option.value} value={option.value} className="bg-surface text-fg">
                         {option.label}
                       </option>
                     ))}
@@ -206,7 +206,7 @@ export function ContactForm({ dict, serviceOptions }: ContactFormProps) {
                   <svg
                     aria-hidden
                     viewBox="0 0 20 20"
-                    className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-slate-400"
+                    className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-fg-muted"
                     fill="currentColor"
                   >
                     <path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.17l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z" />
@@ -236,7 +236,7 @@ export function ContactForm({ dict, serviceOptions }: ContactFormProps) {
                   />
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute right-3.5 bottom-3 font-mono text-[0.7rem] text-slate-500"
+                    className="pointer-events-none absolute right-3.5 bottom-3 font-mono text-[0.7rem] text-fg-subtle"
                   >
                     {data.message.trim().length}/{MESSAGE_MAX_LENGTH}
                   </span>
@@ -245,8 +245,8 @@ export function ContactForm({ dict, serviceOptions }: ContactFormProps) {
             </fieldset>
 
             <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <p id="form-note" className="text-xs leading-relaxed text-slate-500 sm:max-w-xs">
-                {dict.requiredBefore} <span className="text-accent-400">*</span> {dict.requiredAfter} {dict.demoNote}
+              <p id="form-note" className="text-xs leading-relaxed text-fg-subtle sm:max-w-xs">
+                {dict.requiredBefore} <span className="text-brand">*</span> {dict.requiredAfter} {dict.demoNote}
               </p>
               <Button type="submit" size="lg" disabled={isSubmitting || hasVisibleErrors} className="w-full sm:w-auto">
                 {isSubmitting ? (

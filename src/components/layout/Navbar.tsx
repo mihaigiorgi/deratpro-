@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import type { NavDictionary } from "@/types";
 
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { ThemeToggle } from "./ThemeToggle";
 
 const SECTION_IDS = ["acasa", ...NAV_SECTIONS];
 
@@ -67,7 +68,7 @@ export function Navbar({ dict, locale }: NavbarProps) {
         className={cn(
           "border-b transition-[background-color,border-color,backdrop-filter] duration-500",
           elevated
-            ? "border-white/8 bg-ink-900/75 backdrop-blur-xl backdrop-saturate-150"
+            ? "border-fg/8 bg-page/75 backdrop-blur-xl backdrop-saturate-150"
             : "border-transparent bg-transparent",
         )}
       >
@@ -90,13 +91,13 @@ export function Navbar({ dict, locale }: NavbarProps) {
                     aria-current={isActive ? "true" : undefined}
                     className={cn(
                       "relative isolate rounded-full px-3.5 py-2 text-sm transition-colors duration-300",
-                      isActive ? "text-white" : "text-slate-400 hover:text-white",
+                      isActive ? "text-fg" : "text-fg-muted hover:text-fg",
                     )}
                   >
                     {isActive && (
                       <motion.span
                         layoutId="nav-active"
-                        className="absolute inset-0 -z-10 rounded-full bg-white/[0.07]"
+                        className="absolute inset-0 -z-10 rounded-full bg-fg/7"
                         transition={{ type: "spring", stiffness: 380, damping: 32 }}
                       />
                     )}
@@ -109,6 +110,7 @@ export function Navbar({ dict, locale }: NavbarProps) {
 
           <div className="flex items-center gap-2">
             <LanguageSwitcher locale={locale} label={dict.languageLabel} hash={active} />
+            <ThemeToggle label={dict.themeLabel} className="max-[379px]:hidden" />
             <Button href="#contact" size="md" className="max-md:hidden">
               {dict.cta}
               <ArrowRight
@@ -124,7 +126,7 @@ export function Navbar({ dict, locale }: NavbarProps) {
               aria-expanded={open}
               aria-controls="meniu-mobil"
               aria-label={open ? dict.closeMenu : dict.openMenu}
-              className="inline-flex size-11 items-center justify-center rounded-full border border-white/10 text-white transition-colors hover:bg-white/5 md:hidden"
+              className="inline-flex size-11 items-center justify-center rounded-full border border-fg/10 text-fg transition-colors hover:bg-fg/5 md:hidden"
             >
               {open ? <X aria-hidden className="size-5" /> : <Menu aria-hidden className="size-5" />}
             </button>
@@ -141,7 +143,7 @@ export function Navbar({ dict, locale }: NavbarProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="h-[calc(100dvh-4rem)] overflow-y-auto border-b border-white/8 bg-ink-900/95 backdrop-blur-xl md:hidden"
+            className="h-[calc(100dvh-4rem)] overflow-y-auto border-b border-fg/8 bg-page/95 backdrop-blur-xl md:hidden"
           >
             <Container className="flex h-full flex-col pt-6 pb-8">
               <ul className="flex flex-col">
@@ -151,19 +153,23 @@ export function Navbar({ dict, locale }: NavbarProps) {
                     initial={{ opacity: 0, x: -12 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.05 + index * 0.05, duration: 0.35 }}
-                    className="border-b border-white/6"
+                    className="border-b border-fg/6"
                   >
                     <a
                       href={`#${id}`}
                       onClick={closeMenu}
-                      className="flex items-center justify-between py-4 text-2xl font-medium tracking-tight text-white"
+                      className="flex items-center justify-between py-4 text-2xl font-medium tracking-tight text-fg"
                     >
                       {dict.items[id]}
-                      <span className="font-mono text-xs text-slate-500">0{index + 1}</span>
+                      <span className="font-mono text-xs text-fg-subtle">0{index + 1}</span>
                     </a>
                   </motion.li>
                 ))}
               </ul>
+              <div className="flex items-center justify-between border-b border-fg/6 py-4 min-[380px]:hidden">
+                <span className="text-lg font-medium text-fg">{dict.themeMenu}</span>
+                <ThemeToggle label={dict.themeLabel} />
+              </div>
               <Button href="#contact" size="lg" onClick={closeMenu} className="mt-auto w-full">
                 {dict.mobileCta}
                 <ArrowRight aria-hidden className="size-4" />

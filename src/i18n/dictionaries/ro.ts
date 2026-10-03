@@ -24,6 +24,8 @@ export const ro: Dictionary = {
     openMenu: "Deschide meniul",
     closeMenu: "Închide meniul",
     languageLabel: "Limba site-ului",
+    themeLabel: "Schimbă tema: luminoasă sau întunecată",
+    themeMenu: "Temă",
   },
   hero: {
     badge: "Deratizare · Dezinsecție · Dezinfecție",

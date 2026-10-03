@@ -24,6 +24,8 @@ export const en: Dictionary = {
     openMenu: "Open menu",
     closeMenu: "Close menu",
     languageLabel: "Site language",
+    themeLabel: "Switch between light and dark theme",
+    themeMenu: "Theme",
   },
   hero: {
     badge: "Rodents · Insects · Disinfection",

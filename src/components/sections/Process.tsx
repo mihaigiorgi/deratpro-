@@ -30,18 +30,16 @@ export function Process({ dict }: { dict: Dictionary["process"] }) {
                 <li key={step.id} className="relative pl-20 md:pl-0 md:text-center">
                   <Reveal delay={0.15 + index * 0.15}>
                     <div className="absolute top-0 left-0 md:static md:mx-auto md:w-fit">
-                      <span className="relative flex size-14 items-center justify-center rounded-2xl border border-accent-400/25 bg-ink-850 text-accent-400 shadow-[0_0_0_8px_var(--color-ink-900)]">
+                      <span className="relative flex size-14 items-center justify-center rounded-2xl border border-brand/25 bg-surface-2 text-brand shadow-[0_0_0_8px_var(--color-page)]">
                         <Icon aria-hidden className="size-6" strokeWidth={1.75} />
                       </span>
                     </div>
-                    <p className="font-mono text-xs tracking-[0.18em] text-accent-400 md:mt-8">
+                    <p className="font-mono text-xs tracking-[0.18em] text-brand md:mt-8">
                       <span className="sr-only">{dict.stepLabel} </span>
                       {step.number}
                     </p>
-                    <h3 className="mt-2 text-xl font-semibold tracking-tight text-white">
-                      {dict.steps[step.id].title}
-                    </h3>
-                    <p className="mt-3 leading-relaxed text-slate-400 md:mx-auto md:max-w-xs">
+                    <h3 className="mt-2 text-xl font-semibold tracking-tight text-fg">{dict.steps[step.id].title}</h3>
+                    <p className="mt-3 leading-relaxed text-fg-muted md:mx-auto md:max-w-xs">
                       {dict.steps[step.id].description}
                     </p>
                   </Reveal>

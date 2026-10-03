@@ -2,7 +2,7 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "reac
 
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "secondary" | "dark";
+type Variant = "primary" | "secondary" | "contrast";
 type Size = "md" | "lg";
 
 const base =
@@ -12,10 +12,9 @@ const base =
   "disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-accent-400 text-ink-900 hover:bg-accent-300 hover:shadow-glow focus-visible:outline-accent-400",
-  secondary:
-    "border border-white/12 bg-white/[0.03] text-white hover:border-white/25 hover:bg-white/[0.07] focus-visible:outline-accent-400",
-  dark: "bg-ink-900 text-white hover:bg-ink-700 focus-visible:outline-ink-900",
+  primary: "bg-accent-400 text-ink-900 hover:bg-accent-300 hover:shadow-glow focus-visible:outline-brand",
+  secondary: "border border-fg/12 bg-fg/3 text-fg hover:border-fg/25 hover:bg-fg/7 focus-visible:outline-brand",
+  contrast: "bg-fg text-page hover:bg-fg/85 focus-visible:outline-fg",
 };
 
 const sizes: Record<Size, string> = {

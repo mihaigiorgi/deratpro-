@@ -7,6 +7,7 @@ import { MotionProvider } from "@/components/layout/MotionProvider";
 import { DEFAULT_LOCALE, hasLocale, LOCALES, localePath, OG_LOCALES } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { SITE } from "@/lib/site";
+import { DEFAULT_THEME, THEME_INIT_SCRIPT } from "@/lib/theme";
 
 import "../globals.css";
 
@@ -59,7 +60,6 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
 
 export const viewport: Viewport = {
   themeColor: "#070c17",
-  colorScheme: "dark",
 };
 
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
@@ -69,7 +69,15 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   const dict = getDictionary(lang);
 
   return (
-    <html lang={lang} className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html
+      lang={lang}
+      data-theme={DEFAULT_THEME}
+      suppressHydrationWarning
+      className={`${GeistSans.variable} ${GeistMono.variable}`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body>
         <a
           href="#continut"

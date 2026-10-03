@@ -17,28 +17,28 @@ export function Field({ id, label, error, hint, optionalLabel, className, childr
   return (
     <div className={cn("flex flex-col", className)}>
       <div className="mb-2 flex items-baseline justify-between gap-3">
-        <label htmlFor={id} className="text-sm font-medium text-slate-200">
+        <label htmlFor={id} className="text-sm font-medium text-fg-strong">
           {label}
           {!optionalLabel && (
-            <span aria-hidden className="ml-0.5 text-accent-400">
+            <span aria-hidden className="ml-0.5 text-brand">
               *
             </span>
           )}
         </label>
-        {optionalLabel && <span className="text-xs text-slate-500">{optionalLabel}</span>}
+        {optionalLabel && <span className="text-xs text-fg-subtle">{optionalLabel}</span>}
       </div>
 
       {children}
 
       <div className="min-h-6 pt-1.5 text-xs leading-snug">
         {error ? (
-          <p id={`${id}-error`} className="flex items-start gap-1.5 text-rose-300">
+          <p id={`${id}-error`} className="flex items-start gap-1.5 text-danger">
             <AlertCircle aria-hidden className="mt-px size-3.5 shrink-0" />
             {error}
           </p>
         ) : (
           hint && (
-            <p id={`${id}-hint`} className="text-slate-500">
+            <p id={`${id}-hint`} className="text-fg-subtle">
               {hint}
             </p>
           )
@@ -59,11 +59,11 @@ export function fieldA11y(id: string, error?: string, hasHint = false) {
 
 export function controlClasses(hasError: boolean) {
   return cn(
-    "w-full rounded-xl border bg-ink-900/60 px-4 text-[0.95rem] text-white placeholder:text-slate-500",
+    "w-full rounded-xl border bg-page/60 px-4 text-[0.95rem] text-fg placeholder:text-fg-subtle",
     "transition-[border-color,box-shadow,background-color] duration-200",
-    "focus:bg-ink-900 focus:outline-none focus:ring-4",
+    "focus:bg-page focus:outline-none focus:ring-4",
     hasError
-      ? "border-rose-400/60 focus:border-rose-400 focus:ring-rose-400/15"
-      : "border-white/10 hover:border-white/20 focus:border-accent-400/70 focus:ring-accent-400/15",
+      ? "border-danger-line/60 focus:border-danger-line focus:ring-danger-line/15"
+      : "border-fg/10 hover:border-fg/20 focus:border-brand/70 focus:ring-brand/15",
   );
 }
